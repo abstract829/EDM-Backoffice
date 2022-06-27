@@ -1,7 +1,14 @@
 import { ErrorMessage, Field } from 'formik'
 import RenderIf from '../RenderIf'
 
-const FormGroup = ({ name, label, type, placeholder, options }) => {
+const FormGroup = ({
+  name,
+  label,
+  type,
+  placeholder,
+  options,
+  disabled = false,
+}) => {
   return (
     <div className="flex flex-col">
       <label className="mb-2 font-bold text-[#908161]" htmlFor={name}>
@@ -9,7 +16,7 @@ const FormGroup = ({ name, label, type, placeholder, options }) => {
       </label>
 
       <RenderIf isTrue={type === 'select'}>
-        <Field as="select" name={name} className="input">
+        <Field as="select" name={name} className="input" disabled={disabled}>
           {options &&
             options.map((op) => (
               <option key={op.value} value={op.value}>
@@ -23,7 +30,10 @@ const FormGroup = ({ name, label, type, placeholder, options }) => {
           type={type}
           name={name}
           placeholder={placeholder}
-          className={type === 'textarea' ? 'input h-16 w-96' : 'input'}
+          className={
+            type === 'textarea' ? 'input max-w-96 h-16 w-full' : 'input'
+          }
+          disabled={disabled}
         />
       </RenderIf>
 

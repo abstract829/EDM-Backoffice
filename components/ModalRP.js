@@ -20,6 +20,7 @@ export default function ModalRP({
   onOpen = () => null,
   onClose = () => null,
   children,
+  className,
 }) {
   const [modalIsOpen, setIsOpen] = React.useState(false)
   function openModal() {
@@ -31,7 +32,7 @@ export default function ModalRP({
     setIsOpen(false)
   }
   return (
-    <div>
+    <div className={className}>
       <button onClick={openModal}>{btn}</button>
       <Modal isOpen={modalIsOpen} style={customStyles}>
         <h3 className="mb-8 bg-[#908161] p-2 text-center text-white ">

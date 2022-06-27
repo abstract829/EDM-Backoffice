@@ -129,3 +129,7 @@ export function checkRut(rut) {
   // Si todo sale bien, eliminar errores (decretar que es válido)
   return [true, valor]
 }
+export const validateValue = (value) => {
+  if (value) return value
+  return ''
+}

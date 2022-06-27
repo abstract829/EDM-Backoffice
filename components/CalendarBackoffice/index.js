@@ -1,9 +1,9 @@
-import Month from './Month'
+import Calendar from './Calendar'
 
 const CustomCalendar = () => {
   return (
     <div className="max-w-5xl mx-auto ">
-      <Month />
+      <Calendar />
     </div>
   )
 }

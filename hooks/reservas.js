@@ -2,11 +2,13 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   fetchAprobarReserva,
   fetchEditarReserva,
+  fetchListarReservasActivas,
   fetchObtenerCalendario,
   fetchObtenerReservas,
   fetchRealizarReserva,
   fetchRealizarReservaBackOffice,
   fetchRechazarReserva,
+  fetchReservaById,
 } from '../services/reserva'
 import useAuth from './useAuth'
 
@@ -23,6 +25,22 @@ export const useQueryReservas = () => {
   return useQuery([key, 'todas'], fetchObtenerReservas, {
     enabled: isAuthenticated,
   })
+}
+export const useQueryReservaById = ({ id }) => {
+  const { isAuthenticated } = useAuth()
+  return useQuery([key, id], () => fetchReservaById({ id }), {
+    enabled: isAuthenticated,
+  })
+}
+export const useQueryReservasActivas = ({ Agno, Mes }) => {
+  const { isAuthenticated } = useAuth()
+  return useQuery(
+    [key, 'activas' + Agno + Mes],
+    () => fetchListarReservasActivas({ Agno, Mes }),
+    {
+      enabled: isAuthenticated,
+    }
+  )
 }
 export const useMutateReserva = () => {
   const queryClient = useQueryClient()

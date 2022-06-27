@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { fetchGuardarUsuario, fetchListarUsuarios } from '../services/user'
+import {
+  fetchGuardarUsuario,
+  fetchListarUsuarios,
+  fetchObtenerPersonaById,
+} from '../services/user'
 import useAuth from './useAuth'
 
 const key = 'listaUsuarios'
@@ -17,4 +21,14 @@ export const useMutateUser = () => {
       queryClient.invalidateQueries([key])
     },
   })
+}
+export const useQueryPersona = ({ id }) => {
+  const { isAuthenticated } = useAuth()
+  return useQuery(
+    [key, 'persona' + id],
+    () => fetchObtenerPersonaById({ id }),
+    {
+      enabled: isAuthenticated,
+    }
+  )
 }

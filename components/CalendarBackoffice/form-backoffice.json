@@ -23,25 +23,6 @@
     ]
   },
   {
-    "label": "Tipo Reserva",
-    "type": "select",
-    "name": "TipoReserva",
-    "options": [
-      {
-        "value": "WEB",
-        "text": "Web"
-      },
-      {
-        "value": "AGENCIA",
-        "text": "Agencia"
-      }
-    ],
-    "value":"WEB",
-    "validations": [
-      {"type":"required"}
-    ]
-  },
-  {
     "label": "Cantidad de asistentes",
     "type": "number",
     "name": "CantidadPersonas",

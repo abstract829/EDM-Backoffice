@@ -31,3 +31,14 @@ export const fetchRechazarReserva = async (req) => {
   const { data } = await api.post('/api/reserva/rechazarSolicitudWeb', req)
   return data
 }
+export const fetchListarReservasActivas = async ({ Agno, Mes }) => {
+  const { data } = await api.post('/api/reserva/listarActivasBackoffice', {
+    Agno,
+    Mes,
+  })
+  return data
+}
+export const fetchReservaById = async ({ id }) => {
+  const { data } = await api.get(`/api/reserva/obtener/${id}`)
+  return data
+}

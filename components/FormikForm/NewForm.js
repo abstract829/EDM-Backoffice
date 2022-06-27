@@ -11,6 +11,7 @@ const NewForm = ({
   submitFunction,
   btnText,
   closeForm,
+  disabled = false,
 }) => {
   const initialValues = {}
   const validations = {}
@@ -51,13 +52,17 @@ const NewForm = ({
             <RenderIf isTrue={errors.submit}>
               <span className="p-2 text-white bg-red-400">{errors.submit}</span>
             </RenderIf>
-            <div className={scroll ? 'mt-4 max-h-96 overflow-y-auto' : 'mt-4'}>
-              <div className={`grid grid-cols-12 gap-4`}>
+            <div
+              className={
+                scroll ? 'mt-4 max-h-[600px]  overflow-y-auto' : 'mt-4'
+              }
+            >
+              <div className={`grid grid-cols-12 gap-x-8 gap-y-4 px-4`}>
                 {form.map((input, index) => (
                   <div
                     key={input.name}
                     className={`${
-                      input.type === 'textarea' ? 'col-span-8' : 'col-span-4'
+                      input.type === 'textarea' ? 'col-span-4' : 'col-span-4'
                     }`}
                   >
                     <FormGroup
@@ -66,21 +71,25 @@ const NewForm = ({
                       type={input.type}
                       name={input.name}
                       placeholder={input.placeholder}
-                      options={input.options ? input.options : null}
+                      options={input.options}
+                      disabled={disabled || input.disabled}
                     />
                   </div>
                 ))}
               </div>
             </div>
             <div className="grid grid-cols-12">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex items-center justify-center w-full col-span-6 mt-8 font-bold uppercase button-secondary"
-              >
-                <LoadIndicatorIf isTrue={isSubmitting} />
-                {btnText}
-              </button>
+              {!disabled && (
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex items-center justify-center w-full col-span-6 mt-8 font-bold uppercase button-secondary"
+                >
+                  <LoadIndicatorIf isTrue={isSubmitting} />
+                  {btnText}
+                </button>
+              )}
+
               <button
                 type="button"
                 onClick={closeForm}

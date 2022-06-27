@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAprobarReserva, useRechazarReserva } from '../../hooks/reservas'
 import Alerts from '../Alerts'
-const AprobarReserva = ({ precio = '', closeModal, sala }) => {
+const AprobarReserva = ({ closeModal, sala }) => {
   const {
     mutate: aprobarReserva,
     isErrorAprobar,

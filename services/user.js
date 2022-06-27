@@ -66,3 +66,7 @@ export const fetchListarFunciones = async () => {
   const { data } = await api.get(`/api/perfil/listarFunciones`)
   return data
 }
+export const fetchObtenerPersonaById = async ({ id }) => {
+  const { data } = await api.get(`/api/usuario/obtenermipersona/${id}`)
+  return data
+}

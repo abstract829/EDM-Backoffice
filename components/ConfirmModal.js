@@ -20,7 +20,7 @@ export default function ConfirmModal({
   title = 'Modal title',
   onOpen = () => null,
   onClose = () => null,
-  onSubmit = () => null,
+  onSubmit = async () => null,
 }) {
   const [modalIsOpen, setIsOpen] = React.useState(false)
   function openModal() {
@@ -30,6 +30,10 @@ export default function ConfirmModal({
   function closeModal() {
     onClose()
     setIsOpen(false)
+  }
+  const handleSubmit = async () => {
+    await onSubmit()
+    closeModal()
   }
   return (
     <div>
@@ -44,7 +48,7 @@ export default function ConfirmModal({
             <p>¿Desea continuar?</p>
           </div>
           <div className="flex justify-between mt-8">
-            <button className="button" onClick={onSubmit}>
+            <button className="button" onClick={handleSubmit}>
               Confirmar
             </button>
             <button
