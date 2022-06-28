@@ -1,9 +1,11 @@
+import usePaginate from '../../hooks/usePaginate'
 import { useQueryUsers } from '../../hooks/users'
 import useSearch from '../../hooks/useSearch'
 import Alert from '../Alert'
 import DefaultTable from '../DefaultTable'
 import LoaderWhen from '../LoaderWhen'
 import ModalRP from '../ModalRP'
+import Pagination from '../Pagination'
 import PlusButton from '../PlusButton'
 import AddUsuario from './AddUsuario'
 import EditUsuario from './EditUsuario'
@@ -11,6 +13,18 @@ import EditUsuario from './EditUsuario'
 export default function TablaUsuarios() {
   const { data: listadoUsuarios, isLoading, isError } = useQueryUsers()
   const { searchValue, handleChange, filterListado } = useSearch('Nombre')
+  const {
+    paginated,
+    nextPage,
+    prevPage,
+    totalPages,
+    setPage,
+    currentPage,
+    itemsPerPage,
+  } = usePaginate({
+    perPage: 7,
+    arr: listadoUsuarios && listadoUsuarios.data,
+  })
   const columns = ['ID', 'Nombre', 'Email', 'Perfil', 'Activo']
   if (isError) {
     return <Alert type="failed">Hubo un error inesperado</Alert>
@@ -22,16 +36,26 @@ export default function TablaUsuarios() {
           {(closeModal) => <AddUsuario closeModal={closeModal} />}
         </ModalRP>
 
-        <input
-          className="input"
-          placeholder="Busca un usuario..."
-          type="text"
-          value={searchValue}
-          onChange={handleChange}
-        />
+        <div className="flex gap-2 my-8">
+          <input
+            className="input"
+            placeholder="Busca un usuario..."
+            type="text"
+            value={searchValue}
+            onChange={handleChange}
+          />
+          <Pagination
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setPage={setPage}
+            totalPages={totalPages()}
+          />
+        </div>
         <DefaultTable columns={columns} extra={1}>
           {listadoUsuarios &&
-            filterListado(listadoUsuarios.data).map((usuario) => (
+            paginated(filterListado(listadoUsuarios.data)).map((usuario) => (
               <tr key={usuario.UsuarioId} className="bg-white border-b ">
                 <td className="td-default">{usuario.UsuarioId}</td>
                 <td className="td-default">{usuario.Nombre}</td>

@@ -11,7 +11,9 @@ const NewForm = ({
   submitFunction,
   btnText,
   closeForm,
+  scroll = true,
   disabled = false,
+  extra,
 }) => {
   const initialValues = {}
   const validations = {}
@@ -54,7 +56,7 @@ const NewForm = ({
             </RenderIf>
             <div
               className={
-                scroll ? 'mt-4 max-h-[600px]  overflow-y-auto' : 'mt-4'
+                scroll ? 'mt-4 max-h-[450px]  overflow-y-auto' : 'mt-4'
               }
             >
               <div className={`grid grid-cols-12 gap-x-8 gap-y-4 px-4`}>
@@ -77,6 +79,7 @@ const NewForm = ({
                   </div>
                 ))}
               </div>
+              {extra}
             </div>
             <div className="grid grid-cols-12">
               {!disabled && (

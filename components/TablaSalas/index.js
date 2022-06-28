@@ -1,10 +1,12 @@
 import { useQuerySalas } from '../../hooks/salas'
+import usePaginate from '../../hooks/usePaginate'
 import useSearch from '../../hooks/useSearch'
 import Alert from '../Alert'
 import DefaultTable from '../DefaultTable'
 import LoaderWhen from '../LoaderWhen'
 import ModalComponent from '../Modal'
 import ModalRP from '../ModalRP'
+import Pagination from '../Pagination'
 import PlusButton from '../PlusButton'
 import RenderIf from '../RenderIf'
 import AddSala from './AddSala'
@@ -15,6 +17,18 @@ import MisTemporadas from './MisTemporadas'
 export default function TablaSalas() {
   const { data: listadoSalas, isLoading, isError } = useQuerySalas()
   const { searchValue, handleChange, filterListado } = useSearch('Nombre')
+  const {
+    paginated,
+    nextPage,
+    prevPage,
+    totalPages,
+    setPage,
+    currentPage,
+    itemsPerPage,
+  } = usePaginate({
+    perPage: 7,
+    arr: listadoSalas && listadoSalas.data,
+  })
   const columns = [
     'ID',
     'Nombre',
@@ -38,16 +52,27 @@ export default function TablaSalas() {
           btn={<PlusButton />}
           content={<AddSala />}
         /> */}
-        <input
-          className="input"
-          placeholder="Busca una sala..."
-          type="text"
-          value={searchValue}
-          onChange={handleChange}
-        />
+
+        <div className="flex gap-2 my-8">
+          <input
+            className="input"
+            placeholder="Busca una sala..."
+            type="text"
+            value={searchValue}
+            onChange={handleChange}
+          />
+          <Pagination
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setPage={setPage}
+            totalPages={totalPages()}
+          />
+        </div>
         <DefaultTable columns={columns} extra={2}>
           {listadoSalas &&
-            filterListado(listadoSalas.data).map((sala) => (
+            paginated(filterListado(listadoSalas.data)).map((sala) => (
               <tr key={sala.SalaId} className="bg-white border-b ">
                 <td className="td-default">{sala.SalaId}</td>
                 <td className="td-default">{sala.Nombre}</td>

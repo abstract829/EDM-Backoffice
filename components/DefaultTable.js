@@ -1,6 +1,6 @@
 const DefaultTable = ({ columns, children, extra }) => {
   return (
-    <div className="relative max-h-[600px] overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg">
+    <div className="relative max-w-6xl overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 ">
         <thead className="text-xs text-white uppercase bg-primary ">
           <tr>

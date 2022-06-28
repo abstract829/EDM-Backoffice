@@ -7,11 +7,8 @@ import PlusButton from '../PlusButton'
 import AddAsistente from './AddAsistente'
 import EditAsistente from './EditAsistente'
 
-export default function AsistentesTable({ Asistentes }) {
+export default function AsistentesTable() {
   const { asistentes, setAsistentes } = useReserva()
-  useEffect(() => {
-    setAsistentes(Asistentes)
-  }, [Asistentes])
 
   const columns = [
     'Nombre',
@@ -33,7 +30,6 @@ export default function AsistentesTable({ Asistentes }) {
       <ModalRP title="Agregar Asistente" btn={<PlusButton />}>
         {(closeModal) => <AddAsistente closeModal={closeModal} />}
       </ModalRP>
-
       <DefaultTable columns={columns} extra={2}>
         {asistentes.length > 0 &&
           asistentes.map((asistente, i) => (

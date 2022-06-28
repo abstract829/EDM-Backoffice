@@ -1,8 +1,5 @@
-import useAuth from '../../hooks/useAuth'
 import { validateValue } from '../../utils/utils'
-import Alerts from '../Alerts'
 import NewForm from '../FormikForm/NewForm'
-import LoaderWhen from '../LoaderWhen'
 
 const EditarSolicitante = ({ closeModal, solicitante }) => {
   const form = [
@@ -12,7 +9,7 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
       name: 'NumeroDocumento',
       placeholder: '',
       value: solicitante && validateValue(solicitante.NumeroDocumento),
-      disabled: true,
+      validations: [{ type: 'required' }],
     },
     {
       label: 'Nombre Completo',
@@ -20,7 +17,7 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
       name: 'NombreCompleto',
       placeholder: 'Nombre Apellido',
       value: solicitante && validateValue(solicitante.NombreCompleto),
-      disabled: true,
+      validations: [{ type: 'required' }],
     },
     {
       label: 'Email',
@@ -28,7 +25,7 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
       name: 'CorreoElectronico',
       placeholder: 'email@example.com',
       value: solicitante && validateValue(solicitante.CorreoElectronico),
-      disabled: true,
+      validations: [{ type: 'required' }, { type: 'email' }],
     },
     {
       label: 'Fecha de nacimiento',
@@ -36,7 +33,6 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
       name: 'FechaNacimiento',
       value:
         solicitante && validateValue(solicitante.FechaNacimiento.split('T')[0]),
-      disabled: true,
     },
     {
       label: 'Genero',
@@ -47,7 +43,6 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
         { value: 'FEMENINO', text: 'Mujer' },
       ],
       value: solicitante && validateValue(solicitante.Genero),
-      disabled: true,
     },
     {
       label: 'Telefono',
@@ -55,7 +50,6 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
       name: 'Telefono',
       placeholder: '',
       value: solicitante && validateValue(solicitante.Telefono),
-      disabled: true,
     },
     {
       label: 'Pais',
@@ -63,7 +57,6 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
       name: 'PaisId',
       options: [{ value: '1', text: 'Chile' }],
       value: solicitante && validateValue(solicitante.PaisId),
-      disabled: true,
     },
     {
       label: 'Ciudad',
@@ -71,7 +64,6 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
       name: 'Ciudad',
       placeholder: '',
       value: solicitante && validateValue(solicitante.Ciudad),
-      disabled: true,
     },
   ]
   const handleSubmit = async (values) => {

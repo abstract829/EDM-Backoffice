@@ -32,7 +32,7 @@ const ReservaBackOfficeForm = ({ closeModal, dataSala }) => {
       TipoReserva: 'INTERNA',
       TipoVisita: 'EXPERIENCIA DON MELCHOR',
       Estado: 'CONFIRMADA',
-      TipoPersona: 'PERSONA',
+      TipoPersona: 'EJECUTIVO',
       PersonaId: persona.data.PersonaId,
       Solicitante: persona.data,
     }

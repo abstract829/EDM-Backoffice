@@ -1,4 +1,11 @@
-import { useEditReserva, useQueryReservaById } from '../../hooks/reservas'
+import { useEffect } from 'react'
+import {
+  useAprobarReservaAgencia,
+  useCreateReservaBackOffice,
+  useEditReserva,
+  useMutateReserva,
+  useQueryReservaById,
+} from '../../hooks/reservas'
 import useReserva from '../../hooks/useReserva'
 import { validateValue } from '../../utils/utils'
 import Alerts from '../Alerts'
@@ -10,7 +17,16 @@ import AprobarReserva from './AprobarReserva'
 import AsistentesTable from './AsistentesTable'
 import EditarSolicitante from './EditarSolicitante'
 const EditarReserva = ({ closeModal, sala }) => {
-  const { mutate: editReserva, isError, isSuccess } = useEditReserva()
+  const {
+    mutate: editReserva,
+    isError,
+    isSuccess,
+  } = useCreateReservaBackOffice()
+  const {
+    mutate: aprobarAgencia,
+    isErrorAgencia,
+    isSuccessAgencia,
+  } = useAprobarReservaAgencia()
   const {
     data: reserva,
     isErrorSala,
@@ -18,7 +34,13 @@ const EditarReserva = ({ closeModal, sala }) => {
   } = useQueryReservaById({
     id: sala.ReservaId,
   })
-  const { asistentes } = useReserva()
+  useEffect(() => {
+    if (reserva) {
+      setAsistentes(reserva.data.Asistentes)
+    }
+  }, [reserva])
+
+  const { asistentes, setAsistentes } = useReserva()
   if (isLoadingSala) {
     return <LoaderWhen isTrue={isLoadingSala} />
   }
@@ -229,11 +251,13 @@ const EditarReserva = ({ closeModal, sala }) => {
   ]
 
   const handleSubmit = async (values) => {
-    if (asistentes.length > 0) {
-      editReserva({ ...reserva.data, ...values, Asistentes: asistentes })
-    } else {
-      editReserva({ ...reserva.data, ...values })
-    }
+    // for (const key in reserva.data) {
+    //   if (!reserva.data[key]) {
+    //     reserva.data[key] = ''
+    //   }
+    // }
+    console.log({ ...reserva.data, ...values, Asistentes: asistentes })
+    editReserva({ ...reserva.data, ...values, Asistentes: asistentes })
   }
   const isSolicitada = (sala) => {
     return sala.TipoReserva === 'WEB' && sala.Estado === 'SOLICITADA'
@@ -250,6 +274,12 @@ const EditarReserva = ({ closeModal, sala }) => {
     const isValidEstado =
       sala.Estado === 'CONFIRMADA' || sala.Estado === 'RECHAZADA'
     return isValidTipoReserva && isValidEstado
+  }
+  const isAgenciaConfirmada = (sala) => {
+    return sala.TipoReserva === 'AGENCIA' && sala.Estado === 'CONFIRMADA'
+  }
+  const handleAprobarSolicitudAgencia = () => {
+    aprobarAgencia({ ReservaId: sala.ReservaId, Observacion: '' })
   }
   return (
     <>
@@ -272,7 +302,7 @@ const EditarReserva = ({ closeModal, sala }) => {
               btn={<span className="m-4 button">Asistentes</span>}
             >
               {(closeModal) => (
-                <div className="w-full max-w-7xl">
+                <div className="w-full ">
                   <AsistentesTable
                     closeModal={closeModal}
                     Asistentes={reserva.data.Asistentes}
@@ -283,6 +313,12 @@ const EditarReserva = ({ closeModal, sala }) => {
                   >
                     Cerrar
                   </button>
+                  <Alerts
+                    successIf={isSuccessAgencia}
+                    failedIf={isErrorAgencia}
+                    succesText="Pedido enviado correctamente!"
+                    failedText="Hubo un error inesperado"
+                  />
                 </div>
               )}
             </ModalRP>
@@ -308,6 +344,26 @@ const EditarReserva = ({ closeModal, sala }) => {
             btnText="Guardar cambios"
             closeForm={closeModal}
             disabled={isOld(sala)}
+            scroll={true}
+            extra={
+              <RenderIf isTrue={isAgenciaConfirmada(sala)}>
+                <div className="px-4 mt-4">
+                  <p className="my-4 font-bold">
+                    Pedido Agencia Ingresado :{' '}
+                    {reserva.data.PedidoAgenciaIngresado ? 'SI' : 'NO'}
+                  </p>
+                  {!reserva.data.PedidoAgenciaIngresado && (
+                    <button
+                      onClick={handleAprobarSolicitudAgencia}
+                      type="button"
+                      className="button-secondary"
+                    >
+                      Enviar Pedido a SAP
+                    </button>
+                  )}
+                </div>
+              </RenderIf>
+            }
           />
           <Alerts
             successIf={isSuccess}

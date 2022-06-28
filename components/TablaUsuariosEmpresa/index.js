@@ -7,6 +7,7 @@ import Table from './Table'
 export default function TablaUsuariosEmpresa() {
   const { data: listadoEmpresas, isLoading, isError } = useQueryEmpresas()
   const [id, setId] = useState(null)
+
   if (isError) {
     return <Alert type="failed">Hubo un error inesperado</Alert>
   }

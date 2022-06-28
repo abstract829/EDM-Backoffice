@@ -50,6 +50,10 @@ const Sidebar = ({ collapsed }) => {
           name: 'Calendario',
           path: '/dashboard/reserva-calendario',
         },
+        {
+          name: 'Lista de Reservas',
+          path: '/dashboard/lista-reservas',
+        },
       ],
     },
     {

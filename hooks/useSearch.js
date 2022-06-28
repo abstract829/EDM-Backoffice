@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 const useSearch = (key) => {
   const [searchValue, setSearchValue] = useState('')
+
   const filterListado = (arr) => {
     let search = searchValue.trim().toLowerCase()
     if (search.length > 0) {
@@ -10,6 +11,7 @@ const useSearch = (key) => {
       return arr
     }
   }
+
   const handleChange = (e) => {
     setSearchValue(e.target.value)
   }

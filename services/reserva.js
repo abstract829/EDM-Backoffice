@@ -27,6 +27,10 @@ export const fetchAprobarReserva = async (req) => {
   const { data } = await api.post('/api/reserva/aprobarSolicitudWeb', req)
   return data
 }
+export const fetchAprobarReservaAgencia = async (req) => {
+  const { data } = await api.post('/api/reserva/aprobarSolicitudAgencia', req)
+  return data
+}
 export const fetchRechazarReserva = async (req) => {
   const { data } = await api.post('/api/reserva/rechazarSolicitudWeb', req)
   return data
