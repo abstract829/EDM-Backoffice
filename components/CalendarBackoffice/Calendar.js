@@ -23,7 +23,6 @@ const Calendar = () => {
     isLoading,
     isError,
   } = useCalendar()
-
   if (isError) {
     return <Alert type="failed">Hubo un error inesperado</Alert>
   }

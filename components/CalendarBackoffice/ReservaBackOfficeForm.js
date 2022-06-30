@@ -1,30 +1,41 @@
+import { useEffect } from 'react'
 import { useCreateReservaBackOffice } from '../../hooks/reservas'
 import useAuth from '../../hooks/useAuth'
+import useReserva from '../../hooks/useReserva'
 import { useQueryPersona } from '../../hooks/users'
 import Alerts from '../Alerts'
 import NewForm from '../FormikForm/NewForm'
 import LoaderWhen from '../LoaderWhen'
 import ModalRP from '../ModalRP'
+import RenderIf from '../RenderIf'
 import EditarSolicitante from './EditarSolicitante'
 import form from './form-backoffice.json'
-const ReservaBackOfficeForm = ({ closeModal, dataSala }) => {
+const ReservaBackOfficeForm = ({ closeModal, dataSala, closeAll }) => {
   const {
     mutate: realizarReserva,
     isError,
     isSuccess,
   } = useCreateReservaBackOffice()
+  const { solicitante, setSolicitante } = useReserva()
   const { user } = useAuth()
   const {
     data: persona,
     isLoading,
     isErrorPersona,
   } = useQueryPersona({ id: user.UsuarioId })
+  useEffect(() => {
+    if (persona) {
+      setSolicitante(persona.data)
+    }
+  }, [persona])
+
   if (isLoading) {
     return <LoaderWhen isTrue={isLoading} />
   }
   if (isErrorPersona) {
     return <p>Hubo un error inesperado</p>
   }
+
   const handleSubmit = async (values) => {
     const request = {
       ...dataSala,
@@ -33,10 +44,17 @@ const ReservaBackOfficeForm = ({ closeModal, dataSala }) => {
       TipoVisita: 'EXPERIENCIA DON MELCHOR',
       Estado: 'CONFIRMADA',
       TipoPersona: 'EJECUTIVO',
-      PersonaId: persona.data.PersonaId,
-      Solicitante: persona.data,
+      // PersonaId: persona.data.PersonaId,
+      PersonaId: 0,
+      Solicitante: solicitante,
     }
+    console.log({ request })
     realizarReserva(request)
+  }
+  if (isSuccess) {
+    setTimeout(() => {
+      closeAll()
+    }, 1000)
   }
   return (
     <>
@@ -45,7 +63,7 @@ const ReservaBackOfficeForm = ({ closeModal, dataSala }) => {
           Total a pagar: {precio} - Limite de personas: 11
         </p> */}
         <div className="flex items-center gap-8 px-4">
-          <h2 className="text-md">Solicitante: {user.Nombre}</h2>
+          <h2 className="text-md">Solicitante: {solicitante.NombreCompleto}</h2>
           <ModalRP
             title="Solicitante Reserva"
             btn={<span className="button">Ver datos</span>}
@@ -53,7 +71,7 @@ const ReservaBackOfficeForm = ({ closeModal, dataSala }) => {
             {(closeModal) => (
               <EditarSolicitante
                 closeModal={closeModal}
-                solicitante={persona && persona.data}
+                solicitante={solicitante}
               />
             )}
           </ModalRP>
@@ -67,7 +85,7 @@ const ReservaBackOfficeForm = ({ closeModal, dataSala }) => {
         <Alerts
           successIf={isSuccess}
           failedIf={isError}
-          succesText="Reserva creada correctamente!"
+          succesText="Reserva generada exitosamente!"
           failedText="Hubo un error inesperado"
         />
       </div>

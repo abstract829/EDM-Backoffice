@@ -12,7 +12,7 @@ const CalendarItem = ({ sala }) => {
           <p className="text-sm">{sala.TipoReserva}</p>
         </div>
       </RenderIf>
-      <RenderIf isTrue={sala.Estado === 'SOLICITADA'}>
+      <RenderIf isTrue={sala.Estado !== 'CONFIRMADA'}>
         <div className="text-center calendar-item-solicitado">
           <p>{sala.Sala}</p>
           <p>

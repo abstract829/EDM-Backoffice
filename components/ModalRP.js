@@ -21,8 +21,9 @@ export default function ModalRP({
   onClose = () => null,
   children,
   className,
+  defaultOpen = false,
 }) {
-  const [modalIsOpen, setIsOpen] = React.useState(false)
+  const [modalIsOpen, setIsOpen] = React.useState(defaultOpen)
   function openModal() {
     onOpen()
     setIsOpen(true)

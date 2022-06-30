@@ -46,3 +46,7 @@ export const fetchReservaById = async ({ id }) => {
   const { data } = await api.get(`/api/reserva/obtener/${id}`)
   return data
 }
+export const fetchCancelarReserva = async ({ ReservaId }) => {
+  const { data } = await api.post(`/api/reserva/cancelar`, { ReservaId })
+  return data
+}

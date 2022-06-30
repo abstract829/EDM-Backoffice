@@ -25,7 +25,10 @@ const ConfirmarHorario = ({ precio = '', closeModal }) => {
       name: 'SalaId',
       options:
         data &&
-        data.data.map((sala) => ({ value: sala.SalaId, text: sala.Nombre })),
+        data.data.map((sala) => ({
+          value: sala.SalaId,
+          text: sala.Nombre,
+        })),
       value: data && data.data[0].SalaId,
       validations: [{ type: 'required' }],
     },
@@ -58,7 +61,7 @@ const ConfirmarHorario = ({ precio = '', closeModal }) => {
     const HorarioInicio = values.FechaInicio
     const HorarioTermino = values.FechaTermino
     const SalaNombre = data.data.find(
-      (sala) => sala.SalaId === values.SalaId
+      (sala) => Number(sala.SalaId) === Number(values.SalaId)
     ).Nombre
     const request = {
       SalaId: values.SalaId,
@@ -101,10 +104,11 @@ const ConfirmarHorario = ({ precio = '', closeModal }) => {
                 btn={<span className="ml-8 button">Ir a reservar</span>}
                 title="Realizar Reserva"
               >
-                {(closeModal) => (
+                {(close) => (
                   <ReservaBackOfficeForm
                     dataSala={dataSala}
-                    closeModal={closeModal}
+                    closeModal={close}
+                    closeAll={closeModal}
                   />
                 )}
               </ModalRP>

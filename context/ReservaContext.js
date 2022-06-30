@@ -8,6 +8,9 @@ export const ReservaProvider = ({ children }) => {
   useEffect(() => {
     console.log(asistentes)
   }, [asistentes])
+  useEffect(() => {
+    console.log({ solicitante })
+  }, [solicitante])
 
   return (
     <ReservaContext.Provider

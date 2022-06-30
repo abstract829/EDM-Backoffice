@@ -1,7 +1,12 @@
+import { useState } from 'react'
+import useReserva from '../../hooks/useReserva'
 import { validateValue } from '../../utils/utils'
+import Alerts from '../Alerts'
 import NewForm from '../FormikForm/NewForm'
 
-const EditarSolicitante = ({ closeModal, solicitante }) => {
+const EditarSolicitante = ({ closeModal, solicitante, disabled = false }) => {
+  const { setSolicitante } = useReserva()
+  const [isSuccess, SetIsSuccess] = useState(0)
   const form = [
     {
       label: 'RUT/DNI/PASAPORTE',
@@ -67,7 +72,8 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
     },
   ]
   const handleSubmit = async (values) => {
-    console.log(values)
+    setSolicitante({ ...solicitante, ...values })
+    SetIsSuccess(1)
   }
 
   return (
@@ -79,14 +85,14 @@ const EditarSolicitante = ({ closeModal, solicitante }) => {
             submitFunction={handleSubmit}
             btnText="Guardar cambios"
             closeForm={closeModal}
-            disabled={true}
+            disabled={disabled}
           />
-          {/* <Alerts
-            successIf={isSuccess}
-            failedIf={isError}
+          <Alerts
+            successIf={isSuccess === 1}
+            failedIf={isSuccess === 2}
             succesText="Solicitante editado correctamente!"
             failedText="Hubo un error inesperado"
-          /> */}
+          />
         </>
       )}
     </>

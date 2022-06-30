@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   fetchAprobarReserva,
   fetchAprobarReservaAgencia,
+  fetchCancelarReserva,
   fetchEditarReserva,
   fetchListarReservasActivas,
   fetchObtenerCalendario,
@@ -86,6 +87,14 @@ export const useAprobarReservaAgencia = () => {
 export const useRechazarReserva = () => {
   const queryClient = useQueryClient()
   return useMutation(fetchRechazarReserva, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([key])
+    },
+  })
+}
+export const useCancelarReserva = () => {
+  const queryClient = useQueryClient()
+  return useMutation(fetchCancelarReserva, {
     onSuccess: () => {
       queryClient.invalidateQueries([key])
     },

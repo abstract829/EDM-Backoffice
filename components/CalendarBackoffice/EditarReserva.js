@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useQueryClient } from 'react-query'
 import {
   useAprobarReservaAgencia,
   useCreateReservaBackOffice,
-  useEditReserva,
-  useMutateReserva,
   useQueryReservaById,
 } from '../../hooks/reservas'
 import useReserva from '../../hooks/useReserva'
+import { fetchCancelarReserva } from '../../services/reserva'
 import { validateValue } from '../../utils/utils'
 import Alerts from '../Alerts'
 import NewForm from '../FormikForm/NewForm'
@@ -17,6 +17,8 @@ import AprobarReserva from './AprobarReserva'
 import AsistentesTable from './AsistentesTable'
 import EditarSolicitante from './EditarSolicitante'
 const EditarReserva = ({ closeModal, sala }) => {
+  const queryClient = useQueryClient()
+  const [cancelarSuccess, setCancelarSuccess] = useState(0)
   const {
     mutate: editReserva,
     isError,
@@ -34,13 +36,15 @@ const EditarReserva = ({ closeModal, sala }) => {
   } = useQueryReservaById({
     id: sala.ReservaId,
   })
+  const { asistentes, setAsistentes } = useReserva()
+
   useEffect(() => {
     if (reserva) {
+      console.log(reserva.data)
       setAsistentes(reserva.data.Asistentes)
     }
   }, [reserva])
 
-  const { asistentes, setAsistentes } = useReserva()
   if (isLoadingSala) {
     return <LoaderWhen isTrue={isLoadingSala} />
   }
@@ -52,6 +56,13 @@ const EditarReserva = ({ closeModal, sala }) => {
     )
   }
   const form = [
+    {
+      label: 'Estado',
+      type: 'text',
+      name: 'Estado',
+      value: reserva && validateValue(reserva.data.Estado),
+      disabled: true,
+    },
     {
       label: 'Idioma',
       type: 'select',
@@ -87,6 +98,7 @@ const EditarReserva = ({ closeModal, sala }) => {
       type: 'text',
       name: 'AreaSolicitante',
       value: reserva && validateValue(reserva.data.AreaSolicitante),
+      disabled: true,
     },
     {
       label: 'Tipo de Reserva',
@@ -257,7 +269,11 @@ const EditarReserva = ({ closeModal, sala }) => {
     //   }
     // }
     console.log({ ...reserva.data, ...values, Asistentes: asistentes })
-    editReserva({ ...reserva.data, ...values, Asistentes: asistentes })
+    editReserva({
+      ...reserva.data,
+      ...values,
+      Asistentes: asistentes,
+    })
   }
   const isSolicitada = (sala) => {
     return sala.TipoReserva === 'WEB' && sala.Estado === 'SOLICITADA'
@@ -281,6 +297,28 @@ const EditarReserva = ({ closeModal, sala }) => {
   const handleAprobarSolicitudAgencia = () => {
     aprobarAgencia({ ReservaId: sala.ReservaId, Observacion: '' })
   }
+  const handleCancelarReserva = async () => {
+    let query = [
+      'reservas',
+      'activas' +
+        new Date(sala.Fecha).getFullYear() +
+        (new Date(sala.Fecha).getMonth() + 1),
+    ]
+    const res = await fetchCancelarReserva({ ReservaId: sala.ReservaId })
+    if (res.codigo === 0) {
+      setCancelarSuccess(1)
+      setTimeout(() => {
+        queryClient.invalidateQueries(query)
+        closeModal()
+      }, 1000)
+    } else {
+      setCancelarSuccess(2)
+      setTimeout(() => {
+        queryClient.invalidateQueries(query)
+        closeModal()
+      }, 1000)
+    }
+  }
   return (
     <>
       {reserva && (
@@ -294,6 +332,7 @@ const EditarReserva = ({ closeModal, sala }) => {
                 <EditarSolicitante
                   closeModal={closeModal}
                   solicitante={reserva.data.Solicitante}
+                  disabled={true}
                 />
               )}
             </ModalRP>
@@ -306,6 +345,7 @@ const EditarReserva = ({ closeModal, sala }) => {
                   <AsistentesTable
                     closeModal={closeModal}
                     Asistentes={reserva.data.Asistentes}
+                    isEditable={isAgenciaConfirmada(sala)}
                   />
                   <button
                     className="float-right mt-12 button-cancel w-96"
@@ -329,13 +369,22 @@ const EditarReserva = ({ closeModal, sala }) => {
                   <span className="m-4 button-secondary">Aprobar/Rechazar</span>
                 }
               >
-                {(closeModal) => (
-                  <AprobarReserva closeModal={closeModal} sala={sala} />
+                {(close) => (
+                  <AprobarReserva
+                    closeModal={close}
+                    closeAll={closeModal}
+                    sala={sala}
+                  />
                 )}
               </ModalRP>
             </RenderIf>
             <RenderIf isTrue={isInterna(sala)}>
-              <button className="m-4 button-secondary">Cancelar Reserva</button>
+              <button
+                className="m-4 button-secondary"
+                onClick={handleCancelarReserva}
+              >
+                Cancelar Reserva
+              </button>
             </RenderIf>
           </div>
           <NewForm
@@ -343,7 +392,7 @@ const EditarReserva = ({ closeModal, sala }) => {
             submitFunction={handleSubmit}
             btnText="Guardar cambios"
             closeForm={closeModal}
-            disabled={isOld(sala)}
+            disabled={isOld(sala) || isSolicitada(sala)}
             scroll={true}
             extra={
               <RenderIf isTrue={isAgenciaConfirmada(sala)}>
@@ -369,6 +418,12 @@ const EditarReserva = ({ closeModal, sala }) => {
             successIf={isSuccess}
             failedIf={isError}
             succesText="Reserva editada correctamente!"
+            failedText="Hubo un error inesperado"
+          />
+          <Alerts
+            successIf={cancelarSuccess === 1}
+            failedIf={cancelarSuccess === 2}
+            succesText="Reserva cancelada correctamente!"
             failedText="Hubo un error inesperado"
           />
         </>

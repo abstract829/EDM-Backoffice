@@ -6,10 +6,11 @@ import DefaultTable from '../DefaultTable'
 import ModalRP from '../ModalRP'
 import Pagination from '../Pagination'
 import PlusButton from '../PlusButton'
+import RenderIf from '../RenderIf'
 import AddAsistente from './AddAsistente'
 import EditAsistente from './EditAsistente'
 
-export default function AsistentesTable() {
+export default function AsistentesTable({ isEditable = false }) {
   const { asistentes, setAsistentes } = useReserva()
   const {
     paginated,
@@ -40,9 +41,12 @@ export default function AsistentesTable() {
   }
   return (
     <>
-      <ModalRP title="Agregar Asistente" btn={<PlusButton />}>
-        {(closeModal) => <AddAsistente closeModal={closeModal} />}
-      </ModalRP>
+      <RenderIf isTrue={isEditable}>
+        <ModalRP title="Agregar Asistente" btn={<PlusButton />}>
+          {(closeModal) => <AddAsistente closeModal={closeModal} />}
+        </ModalRP>
+      </RenderIf>
+
       <div className="flex gap-4 my-4">
         <Pagination
           currentPage={currentPage}
@@ -66,26 +70,28 @@ export default function AsistentesTable() {
                 <td className="td-default">{asistente.PaisId}</td>
                 <td className="td-default">{asistente.NumeroDocumento}</td>
                 <td className="td-default">{asistente.Telefono}</td>
-                <td className="td-default">
-                  <ModalRP
-                    title="Editar Asistente"
-                    btn={<span className="td-edited">Editar</span>}
-                  >
-                    {(closeModal) => (
-                      <EditAsistente
-                        closeModal={closeModal}
-                        asistente={asistente}
-                      />
-                    )}
-                  </ModalRP>
-                </td>
-                <td>
-                  <ConfirmModal
-                    onSubmit={() => handleDelete(asistente)}
-                    title={`Eliminar ${asistente.NombreCompleto}`}
-                    btn={<span className="td-edited">Eliminar</span>}
-                  />
-                </td>
+                <RenderIf isTrue={isEditable}>
+                  <td className="td-default">
+                    <ModalRP
+                      title="Editar Asistente"
+                      btn={<span className="td-edited">Editar</span>}
+                    >
+                      {(closeModal) => (
+                        <EditAsistente
+                          closeModal={closeModal}
+                          asistente={asistente}
+                        />
+                      )}
+                    </ModalRP>
+                  </td>
+                  <td>
+                    <ConfirmModal
+                      onSubmit={() => handleDelete(asistente)}
+                      title={`Eliminar ${asistente.NombreCompleto}`}
+                      btn={<span className="td-edited">Eliminar</span>}
+                    />
+                  </td>
+                </RenderIf>
               </tr>
             ))}
         </DefaultTable>
