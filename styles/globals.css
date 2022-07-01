@@ -89,3 +89,8 @@
 .pro-sidebar-layout{
   overflow-y: hidden !important;
 }
+@media (min-width:1919px){
+  .dtable{
+    max-width:1500px
+  }
+}

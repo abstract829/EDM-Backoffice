@@ -1,7 +1,12 @@
-const DefaultTable = ({ columns, children, extra }) => {
+const DefaultTable = ({ columns, children, extra, size = 'max-w-6xl', id }) => {
   return (
-    <div className="relative max-w-6xl overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left text-gray-500 ">
+    <div
+      className={
+        'dtable relative overflow-x-auto overflow-y-auto rounded-lg shadow-md ' +
+        size
+      }
+    >
+      <table className="w-full text-sm text-left text-gray-500 " id={id}>
         <thead className="text-xs text-white uppercase bg-primary ">
           <tr>
             {columns.map((column) => (

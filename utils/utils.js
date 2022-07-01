@@ -133,3 +133,9 @@ export const validateValue = (value) => {
   if (value) return value
   return ''
 }
+export const formatCLP = (value) => {
+  return new Intl.NumberFormat('es-CL', {
+    style: 'currency',
+    currency: 'CLP',
+  }).format(value)
+}

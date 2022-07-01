@@ -7,7 +7,7 @@ import {
 } from '../../hooks/reservas'
 import useReserva from '../../hooks/useReserva'
 import { fetchCancelarReserva } from '../../services/reserva'
-import { validateValue } from '../../utils/utils'
+import { formatCLP, validateValue } from '../../utils/utils'
 import Alerts from '../Alerts'
 import NewForm from '../FormikForm/NewForm'
 import LoaderWhen from '../LoaderWhen'
@@ -40,7 +40,7 @@ const EditarReserva = ({ closeModal, sala }) => {
 
   useEffect(() => {
     if (reserva) {
-      console.log(reserva.data)
+      // console.log(reserva.data)
       setAsistentes(reserva.data.Asistentes)
     }
   }, [reserva])
@@ -268,7 +268,7 @@ const EditarReserva = ({ closeModal, sala }) => {
     //     reserva.data[key] = ''
     //   }
     // }
-    console.log({ ...reserva.data, ...values, Asistentes: asistentes })
+    // console.log({ ...reserva.data, ...values, Asistentes: asistentes })
     editReserva({
       ...reserva.data,
       ...values,
@@ -395,23 +395,49 @@ const EditarReserva = ({ closeModal, sala }) => {
             disabled={isOld(sala) || isSolicitada(sala)}
             scroll={true}
             extra={
-              <RenderIf isTrue={isAgenciaConfirmada(sala)}>
-                <div className="px-4 mt-4">
-                  <p className="my-4 font-bold">
-                    Pedido Agencia Ingresado :{' '}
-                    {reserva.data.PedidoAgenciaIngresado ? 'SI' : 'NO'}
-                  </p>
-                  {!reserva.data.PedidoAgenciaIngresado && (
-                    <button
-                      onClick={handleAprobarSolicitudAgencia}
-                      type="button"
-                      className="button-secondary"
-                    >
-                      Enviar Pedido a SAP
-                    </button>
-                  )}
-                </div>
-              </RenderIf>
+              <>
+                <RenderIf isTrue={showAprobadoRechazado(sala)}>
+                  <hr />
+                  <div className="px-4 mt-4">
+                    <p className="my-4 font-bold">
+                      Fecha y Hora de Apruebo/Rechazo :
+                      {reserva.data.FechaHoraApruebaRechazo}
+                    </p>
+                    <p className="my-4 font-bold">
+                      Motivo de Apruebo/Rechazo :
+                      {reserva.data.MotivoApruebaRechazo}
+                    </p>
+                    <p className="my-4 font-bold">
+                      Usuario de Apruebo/Rechazo :
+                      {reserva.data.UsuarioApruebaRechazo}
+                    </p>
+                    <p className="my-4 font-bold">
+                      Monto a pagar : {formatCLP(reserva.data.MontoPagar)} CLP
+                    </p>
+                    <p className="my-4 font-bold">
+                      Valor Dolar : {Math.floor(reserva.data.ValorDolar)}
+                    </p>
+                  </div>
+                </RenderIf>
+                <RenderIf isTrue={isAgenciaConfirmada(sala)}>
+                  <hr />
+                  <div className="px-4 mt-4">
+                    <p className="my-4 font-bold">
+                      Pedido Agencia Ingresado :{' '}
+                      {reserva.data.PedidoAgenciaIngresado ? 'SI' : 'NO'}
+                    </p>
+                    {!reserva.data.PedidoAgenciaIngresado && (
+                      <button
+                        onClick={handleAprobarSolicitudAgencia}
+                        type="button"
+                        className="button-secondary"
+                      >
+                        Enviar Pedido a SAP
+                      </button>
+                    )}
+                  </div>
+                </RenderIf>
+              </>
             }
           />
           <Alerts
