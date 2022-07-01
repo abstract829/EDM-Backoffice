@@ -7,7 +7,7 @@ import {
 } from '../../hooks/reservas'
 import useReserva from '../../hooks/useReserva'
 import { fetchCancelarReserva } from '../../services/reserva'
-import { formatCLP, validateValue } from '../../utils/utils'
+import { dateHourParse, formatCLP, validateValue } from '../../utils/utils'
 import Alerts from '../Alerts'
 import NewForm from '../FormikForm/NewForm'
 import LoaderWhen from '../LoaderWhen'
@@ -411,16 +411,16 @@ const EditarReserva = ({ closeModal, sala }) => {
                   <hr />
                   <div className="px-4 mt-4">
                     <p className="my-4 font-bold">
-                      Fecha y Hora de Apruebo/Rechazo :
-                      {reserva.data.FechaHoraApruebaRechazo}
+                      Fecha y Hora de Apruebo/Rechazo :{' '}
+                      {dateHourParse(reserva.data.FechaHoraAprueboRechazo)}
                     </p>
                     <p className="my-4 font-bold">
-                      Motivo de Apruebo/Rechazo :
-                      {reserva.data.MotivoApruebaRechazo}
+                      Motivo de Apruebo/Rechazo :{' '}
+                      {reserva.data.MotivoAprueboRechazo}
                     </p>
                     <p className="my-4 font-bold">
-                      Usuario de Apruebo/Rechazo :
-                      {reserva.data.UsuarioApruebaRechazo}
+                      Usuario de Apruebo/Rechazo :{' '}
+                      {reserva.data.UsuarioAprueboRechazo}
                     </p>
                     <p className="my-4 font-bold">
                       Monto a pagar : {formatCLP(reserva.data.MontoPagar)} CLP

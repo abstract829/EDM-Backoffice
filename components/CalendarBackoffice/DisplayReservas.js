@@ -1,3 +1,4 @@
+import { dateParse } from '../../utils/utils'
 import ModalRP from '../ModalRP'
 import CalendarItem from './CalendarItem'
 import EditarReserva from './EditarReserva'
@@ -8,7 +9,9 @@ const DisplayReservas = ({ Reserva, Fecha }) => {
       {Reserva.map((sala, i) => (
         <li key={i}>
           <ModalRP
-            title={`${Fecha.split('T')[0]} ${sala.Sala} ${sala.HorarioInicio} -
+            title={`N° Reserva: ${sala.ReservaId} - ${dateParse(
+              Fecha.split('T')[0]
+            )} ${sala.Sala} ${sala.HorarioInicio} -
                                 ${sala.HorarioTermino}`}
             btn={<CalendarItem sala={sala} />}
           >
