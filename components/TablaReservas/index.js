@@ -9,10 +9,32 @@ import Pagination from '../Pagination'
 import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 import ModalRP from '../ModalRP'
 import EditarReserva from '../CalendarBackoffice/EditarReserva'
-
+import { dateHourParse, dateParse } from '../../utils/utils'
+import PlusButton from '../PlusButton'
+import ConfirmarHorario from '../CalendarBackoffice/ConfirmarHorario'
+import RenderIf from '../RenderIf'
+const StatusText = ({ children }) => {
+  return (
+    <>
+      <RenderIf isTrue={children === 'Solicitados'}>
+        <span className="p-2 font-bold text-orange-600 rounded">
+          {children}
+        </span>
+      </RenderIf>
+      <RenderIf isTrue={children === 'No solicitados'}>
+        <span className="p-2 font-bold text-red-600 rounded">{children}</span>
+      </RenderIf>
+      <RenderIf isTrue={children === 'Recibidos'}>
+        <span className="p-2 font-bold text-green-600 rounded">{children}</span>
+      </RenderIf>
+    </>
+  )
+}
 export default function TablaReservas() {
   const { data: reservas, isLoading, isError } = useQueryReservas()
-  const { searchValue, handleChange, filterListado } = useSearch('SalaNombre')
+  const [columnToSearch, setColumnToSearch] = useState('ReservaId')
+
+  const { searchValue, handleChange, filterListado } = useSearch(columnToSearch)
   const [hiddenCols, setHiddenCols] = useState([])
   const [columns, setColumns] = useState([
     'ID',
@@ -51,6 +73,49 @@ export default function TablaReservas() {
     'Motivo Apruebo/Rechazo',
     'Empresa',
   ])
+  const colSearchFilter = [
+    { text: 'ID', value: 'ReservaId' },
+    { text: 'Nombre', value: 'SalaNombre' },
+    { text: 'Solicitante', value: 'NombreSolicitante' },
+    { text: 'Email Solicitante', value: 'EmailSolicitante' },
+    { text: 'Telefono Solicitante', value: 'TelefonoSolicitante' },
+    { text: 'Tipo Persona', value: 'TipoPersona' },
+    { text: 'Fecha', value: 'Fecha' },
+    { text: 'Hora de Inicio', value: 'HorarioInicio' },
+    { text: 'Hora de Termino', value: 'HorarioTermino' },
+    { text: 'Idioma', value: 'Idioma' },
+    { text: 'Tipo Reserva', value: 'TipoReserva' },
+    { text: 'Estado', value: 'Estado' },
+    { text: 'Cantidad de Personas', value: 'CantidadPersonas' },
+    { text: 'Tipo Visita', value: 'TipoVisita' },
+    { text: 'Requerimientos Especiales', value: 'RequerimientosEspeciales' },
+    { text: 'Como se Entero', value: 'ComoSeEntero' },
+    { text: 'Area Solicitante', value: 'AreaSolicitante' },
+    { text: 'Personal CyT', value: 'PersonalCyt' },
+    { text: 'EnologoSommelier', value: 'EnologoSommelier' },
+    { text: 'Encargado Tour', value: 'EncargadoTour' },
+    { text: 'Lugar Almuerzo Cena', value: 'LugarAlmuerzoCena' },
+    {
+      text: 'Comentario Lugar Almuerzo Cena',
+      value: 'ComentarioLugarAlmuerzoCena',
+    },
+    { text: 'Copas Degustacion', value: 'CopasDegustacion' },
+    { text: 'Estado Vinos Degustacion', value: 'EstadoVinosDegustacion' },
+    { text: 'Estado Vinos Comidas', value: 'EstadoVinosComidas' },
+    { text: 'Estado Regalos Visitas', value: 'EstadoRegalosVisitas' },
+    { text: 'Estado Menu Comidas', value: 'EstadoMenuComidas' },
+    {
+      text: 'Comentario Vinos Degustacion',
+      value: 'ComentarioVinosDegustacion',
+    },
+    { text: 'Comentario Vinos Comidas', value: 'ComentarioVinosComidas' },
+    { text: 'Comentario Regalos Visitas', value: 'ComentarioRegalosVisitas' },
+    { text: 'Comentario Menu Comidas', value: 'ComentariosMenuComidas' },
+    { text: 'Comentarios Generales', value: 'ComentariosGenerales' },
+    { text: 'Fecha Apruebo/Rechazo', value: 'FechaHoraAprueboRechazo' },
+    { text: 'Motivo Apruebo/Rechazo', value: 'MotivoAprueboRechazo' },
+    { text: 'Empresa', value: 'Empresa' },
+  ]
   const {
     paginated,
     nextPage,
@@ -60,7 +125,7 @@ export default function TablaReservas() {
     currentPage,
     itemsPerPage,
   } = usePaginate({
-    perPage: 4,
+    perPage: 3,
     arr: reservas && reservas.data,
   })
   useEffect(() => {
@@ -90,7 +155,25 @@ export default function TablaReservas() {
   return (
     <>
       <LoaderWhen isTrue={isLoading}>
+        <ModalRP btn={<PlusButton />} title="Validar Horario">
+          {(closeModal) => <ConfirmarHorario closeModal={closeModal} />}
+        </ModalRP>
         <div className="flex gap-2 my-8">
+          <div>
+            <select
+              onChange={(e) => setColumnToSearch(e.target.value)}
+              className="w-48 input"
+            >
+              <option defaultValue={true} value="SalaNombre">
+                Buscar por columna
+              </option>
+              {colSearchFilter.map((col) => (
+                <option key={col.value} value={col.value}>
+                  {col.text}
+                </option>
+              ))}
+            </select>
+          </div>
           <input
             className="input"
             placeholder="Busca una reserva..."
@@ -151,63 +234,59 @@ export default function TablaReservas() {
           {reservas &&
             paginated(filterListado(reservas.data)).map((reserva) => (
               <tr key={reserva.ReservaId} className="bg-white border-b ">
-                <td className={'td-default '}>{reserva.ReservaId}</td>
-                <td className={'td-default '}>{reserva.SalaNombre}</td>
-                <td className={'td-default '}>{reserva.NombreSolicitante}</td>
-                <td className={'td-default '}>{reserva.EmailSolicitante}</td>
-                <td className={'td-default '}>{reserva.TelefonoSolicitante}</td>
-                <td className={'td-default '}>{reserva.TipoPersona}</td>
-                <td className={'td-default '}>{reserva.Fecha}</td>
-                <td className={'td-default '}>{reserva.HorarioInicio}</td>
-                <td className={'td-default '}>{reserva.HorarioTermino}</td>
-                <td className={'td-default '}>{reserva.Idioma}</td>
-                <td className={'td-default '}>{reserva.TipoReserva}</td>
-                <td className={'td-default '}>{reserva.Estado}</td>
-                <td className={'td-default '}>{reserva.CantidadPersonas}</td>
-                <td className={'td-default '}>{reserva.TipoVisita}</td>
-                <td className={'td-default '}>
+                <td className="td-default">{reserva.ReservaId}</td>
+                <td className="td-default">{reserva.SalaNombre}</td>
+                <td className="td-default">{reserva.NombreSolicitante}</td>
+                <td className="td-default">{reserva.EmailSolicitante}</td>
+                <td className="td-default">{reserva.TelefonoSolicitante}</td>
+                <td className="td-default">{reserva.TipoPersona}</td>
+                <td className="td-default">{dateParse(reserva.Fecha)}</td>
+                <td className="td-default">{reserva.HorarioInicio}</td>
+                <td className="td-default">{reserva.HorarioTermino}</td>
+                <td className="td-default">{reserva.Idioma}</td>
+                <td className="td-default">{reserva.TipoReserva}</td>
+                <td className="td-default">{reserva.Estado}</td>
+                <td className="td-default">{reserva.CantidadPersonas}</td>
+                <td className="td-default">{reserva.TipoVisita}</td>
+                <td className="td-default">
                   {reserva.RequerimientosEspeciales}
                 </td>
-                <td className={'td-default '}>{reserva.ComoSeEntero}</td>
-                <td className={'td-default '}>{reserva.AreaSolicitante}</td>
-                <td className={'td-default '}>{reserva.PersonalCyt}</td>
-                <td className={'td-default '}>{reserva.EnologoSommelier}</td>
-                <td className={'td-default '}>{reserva.EncargadoTour}</td>
-                <td className={'td-default '}>{reserva.LugarAlmuerzoCena}</td>
-                <td className={'td-default '}>
+                <td className="td-default">{reserva.ComoSeEntero}</td>
+                <td className="td-default">{reserva.AreaSolicitante}</td>
+                <td className="td-default">{reserva.PersonalCyt}</td>
+                <td className="td-default">{reserva.EnologoSommelier}</td>
+                <td className="td-default">{reserva.EncargadoTour}</td>
+                <td className="td-default">{reserva.LugarAlmuerzoCena}</td>
+                <td className="td-default">
                   {reserva.ComentarioLugarAlmuerzoCena}
                 </td>
-                <td className={'td-default '}>{reserva.CopasDegustacion}</td>
-                <td className={'td-default '}>
-                  {reserva.EstadoVinosDegustacion}
+                <td className="td-default">{reserva.CopasDegustacion}</td>
+                <td className="td-default">
+                  <StatusText>{reserva.EstadoVinosDegustacion}</StatusText>
                 </td>
-                <td className={'td-default '}>{reserva.EstadoVinosComidas}</td>
-                <td className={'td-default '}>
-                  {reserva.EstadoRegalosVisitas}
+                <td className="td-default">
+                  <StatusText>{reserva.EstadoVinosComidas}</StatusText>
                 </td>
-                <td className={'td-default '}>{reserva.EstadoMenuComidas}</td>
-                <td className={'td-default '}>
+                <td className="td-default">
+                  <StatusText>{reserva.EstadoRegalosVisitas}</StatusText>
+                </td>
+                <td className="td-default">
+                  <StatusText>{reserva.EstadoMenuComidas}</StatusText>
+                </td>
+                <td className="td-default">
                   {reserva.ComentarioVinosDegustacion}
                 </td>
-                <td className={'td-default '}>
-                  {reserva.ComentarioVinosComidas}
-                </td>
-                <td className={'td-default '}>
+                <td className="td-default">{reserva.ComentarioVinosComidas}</td>
+                <td className="td-default">
                   {reserva.ComentarioRegalosVisitas}
                 </td>
-                <td className={'td-default '}>
-                  {reserva.ComentariosMenuComidas}
+                <td className="td-default">{reserva.ComentariosMenuComidas}</td>
+                <td className="td-default">{reserva.ComentariosGenerales}</td>
+                <td className="td-default">
+                  {dateHourParse(reserva.FechaHoraAprueboRechazo)}
                 </td>
-                <td className={'td-default '}>
-                  {reserva.ComentariosGenerales}
-                </td>
-                <td className={'td-default '}>
-                  {reserva.FechaHoraAprueboRechazo}
-                </td>
-                <td className={'td-default '}>
-                  {reserva.MotivoAprueboRechazo}
-                </td>
-                <td className={'td-default '}>{reserva.Empresa}</td>
+                <td className="td-default">{reserva.MotivoAprueboRechazo}</td>
+                <td className="td-default">{reserva.Empresa}</td>
                 <td className="td-default">
                   <ModalRP
                     title="Editar Reserva"

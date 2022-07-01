@@ -59,7 +59,11 @@ const Table = ({ empresaId }) => {
   }
   return (
     <LoaderWhen isTrue={!listaUsuarios}>
-      <ModalRP title="Crear Usuario Empresa" btn={<PlusButton />}>
+      <ModalRP
+        title="Crear Usuario Empresa"
+        btn={<PlusButton />}
+        btnClass="mt-4"
+      >
         {(closeModal) => (
           <AddUsuarioEmpresa EmpresaId={empresaId} closeModal={closeModal} />
         )}

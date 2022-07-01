@@ -17,6 +17,9 @@ export default function TablaUsuariosEmpresa() {
   return (
     <>
       <LoaderWhen isTrue={isLoading}>
+        <label className="block mb-2 font-bold text-primary">
+          Viendo datos de empresa:
+        </label>
         <select
           className="input min-w-[12rem]"
           onChange={(e) => handleSelectChange(e.target.value)}

@@ -17,15 +17,34 @@ export const getSession = () => {
     setSession(null)
   }
 }
-export const dateParse = (value) => {
-  let date = new Date(value)
-  let month = date.getMonth() + 1
-  let day = date.getDate()
-  let year = date.getFullYear()
+export const dateHourParse = (value) => {
+  if (value) {
+    let hour = value.split('T')[1]
+    hour = hour.split(':')
+    hour = `${hour[0]}:${hour[1]}`
+    let date = new Date(value)
+    let month = date.getMonth() + 1
+    let day = date.getDate()
+    let year = date.getFullYear()
 
-  return `${day < 10 ? '0' + day : day}/${
-    month < 10 ? '0' + month : month
-  }/${year}`
+    return `${day < 10 ? '0' + day : day}/${
+      month < 10 ? '0' + month : month
+    }/${year} ${hour}`
+  }
+  return
+}
+export const dateParse = (value) => {
+  if (value) {
+    let date = new Date(value)
+    let month = date.getMonth() + 1
+    let day = date.getDate()
+    let year = date.getFullYear()
+
+    return `${day < 10 ? '0' + day : day}/${
+      month < 10 ? '0' + month : month
+    }/${year}`
+  }
+  return
 }
 export const parseMonthNumberToName = (num) => {
   switch (num) {

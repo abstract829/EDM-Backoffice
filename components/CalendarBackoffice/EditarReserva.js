@@ -297,6 +297,12 @@ const EditarReserva = ({ closeModal, sala }) => {
   const handleAprobarSolicitudAgencia = () => {
     aprobarAgencia({ ReservaId: sala.ReservaId, Observacion: '' })
   }
+  const isPendientePago = () => {
+    return sala.Estado === 'PROCESO PAGO'
+  }
+  const isCancelada = () => {
+    return sala.Estado === 'CANCELADA'
+  }
   const handleCancelarReserva = async () => {
     let query = [
       'reservas',
@@ -378,7 +384,7 @@ const EditarReserva = ({ closeModal, sala }) => {
                 )}
               </ModalRP>
             </RenderIf>
-            <RenderIf isTrue={isInterna(sala)}>
+            <RenderIf isTrue={isInterna(sala) && !isCancelada(sala)}>
               <button
                 className="m-4 button-secondary"
                 onClick={handleCancelarReserva}
@@ -392,7 +398,12 @@ const EditarReserva = ({ closeModal, sala }) => {
             submitFunction={handleSubmit}
             btnText="Guardar cambios"
             closeForm={closeModal}
-            disabled={isOld(sala) || isSolicitada(sala)}
+            disabled={
+              isOld(sala) ||
+              isSolicitada(sala) ||
+              isPendientePago(sala) ||
+              isCancelada(sala)
+            }
             scroll={true}
             extra={
               <>

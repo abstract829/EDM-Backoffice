@@ -48,7 +48,7 @@ const ReservaBackOfficeForm = ({ closeModal, dataSala, closeAll }) => {
       PersonaId: 0,
       Solicitante: solicitante,
     }
-    console.log({ request })
+    // console.log({ request })
     realizarReserva(request)
   }
   if (isSuccess) {

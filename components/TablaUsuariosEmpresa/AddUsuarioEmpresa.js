@@ -95,6 +95,7 @@ const AddUsuarioEmpresa = ({ EmpresaId, closeModal }) => {
         PersonaId: 0,
         EmpresaId,
         NumeroDocumento: Rut,
+        PaisId: '1',
       }
       addUser(usuario)
     } else {

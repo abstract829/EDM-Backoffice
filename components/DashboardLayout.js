@@ -3,7 +3,7 @@ import Sidebar from './Sidebar'
 const DashboardLayout = ({ children }) => {
   return (
     <div className="flex min-h-screen">
-      <div className="">
+      <div>
         <Sidebar />
       </div>
       <div className="w-full">

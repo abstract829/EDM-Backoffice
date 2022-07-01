@@ -69,13 +69,13 @@ const Sidebar = ({ collapsed }) => {
 
   return (
     <ProSidebar collapsed={collapsed}>
-      <Menu iconShape="square">
+      <Menu iconShape="square" className="text-xs">
         <MenuItem>
           <div className="flex flex-col items-center justify-center">
-            <img src="/imgs/logo.png" className="h-16" />
+            <img src="/imgs/logo.png" className="h-20" />
             <span className="relative font-bold uppercase bottom-5">
               <Link href="/dashboard">
-                <a className="text-lg">Don Melchor</a>
+                <a className="text-sm">Don Melchor</a>
               </Link>
             </span>
           </div>

@@ -3,6 +3,7 @@ import {
   fetchEliminarSala,
   fetchGuardarSala,
   fetchListarSalas,
+  fetchListarSalasActivas,
   fetchObtenerSalaPorId,
 } from '../services/salas'
 import useAuth from './useAuth'
@@ -26,6 +27,12 @@ export const useDeleteSala = () => {
 export const useQuerySalas = () => {
   const { isAuthenticated } = useAuth()
   return useQuery([key], fetchListarSalas, {
+    enabled: isAuthenticated,
+  })
+}
+export const useQuerySalasActivas = () => {
+  const { isAuthenticated } = useAuth()
+  return useQuery([key], fetchListarSalasActivas, {
     enabled: isAuthenticated,
   })
 }

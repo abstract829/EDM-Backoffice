@@ -6,7 +6,7 @@ const useSearch = (key) => {
   const filterListado = (arr) => {
     let search = searchValue.trim().toLowerCase()
     if (search.length > 0) {
-      return arr.filter((u) => u[key].toLowerCase().includes(search))
+      return arr.filter((u) => u[key].toString().toLowerCase().includes(search))
     } else {
       return arr
     }

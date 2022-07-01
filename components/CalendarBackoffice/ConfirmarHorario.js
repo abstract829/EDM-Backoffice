@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useQuerySalas } from '../../hooks/salas'
+import { useQuerySalasActivas } from '../../hooks/salas'
 import { fetchValidaBloqueoSala } from '../../services/reserva'
 import Alerts from '../Alerts'
 import NewForm from '../FormikForm/NewForm'
@@ -8,7 +8,7 @@ import ModalRP from '../ModalRP'
 import RenderIf from '../RenderIf'
 import ReservaBackOfficeForm from './ReservaBackOfficeForm'
 const ConfirmarHorario = ({ precio = '', closeModal }) => {
-  const { data, isError, isLoading } = useQuerySalas()
+  const { data, isError, isLoading } = useQuerySalasActivas()
   const [isAvailable, setIsAvailable] = useState(0)
   const [message, setMessage] = useState('')
   const [dataSala, setDataSala] = useState(null)
@@ -23,13 +23,15 @@ const ConfirmarHorario = ({ precio = '', closeModal }) => {
       label: 'Sala',
       type: 'select',
       name: 'SalaId',
-      options:
-        data &&
-        data.data.map((sala) => ({
+      options: data && [
+        { text: 'Seleccione', value: '' },
+        ...data.data.map((sala) => ({
           value: sala.SalaId,
           text: sala.Nombre,
         })),
-      value: data && data.data[0].SalaId,
+      ],
+      // value: data && data.data[0].SalaId,
+      value: '',
       validations: [{ type: 'required' }],
     },
     {
