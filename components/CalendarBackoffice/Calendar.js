@@ -62,23 +62,23 @@ const Calendar = () => {
           </div>
         </div>
       </div>
-      <div className="grid w-full gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid w-full gap-2 auto-rows-max sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {calendario.length > 0 &&
           calendario.map(({ Fecha, Reserva }) => (
             <div
               className="bg-[url('../public/imgs/donmelchor.jpg')] bg-cover  bg-center"
               key={Fecha}
             >
-              <div className="h-56 text-white bg-black border-4 max-w-72 border-primary bg-opacity-80">
-                <p className="my-2 text-2xl font-semibold text-center">
+              <div className="h-full text-white bg-black border-4 max-w-72 border-primary bg-opacity-80">
+                <p className="pt-2 my-2 text-2xl font-semibold leading-3 text-center">
                   {parseFechaToDayDisplay(Fecha)}
                 </p>
                 <div className="flex flex-col items-center mb-4">
                   <p className="text-xl font-semibold text-center">Horarios:</p>
-                  <RenderIf isTrue={Reserva.length < 2}>
+                  <RenderIf isTrue={Reserva.length < 6}>
                     <DisplayReservas Reserva={Reserva} Fecha={Fecha} />
                   </RenderIf>
-                  <RenderIf isTrue={Reserva.length >= 2}>
+                  <RenderIf isTrue={Reserva.length >= 6}>
                     <ModalComponent
                       title="Seleccione la reserva"
                       btn={

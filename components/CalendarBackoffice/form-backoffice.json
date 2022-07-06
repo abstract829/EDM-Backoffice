@@ -36,26 +36,39 @@
     "name": "AreaSolicitante"
   },
   {
+    "label": "Descripción de evento",
+    "type": "textarea",
+    "name": "ComentariosGenerales"
+  },
+  {
+    "label": "Descripción Visita",
+    "type": "textarea",
+    "name": "DescripcionVisita",
+    "validations": [
+      {"type":"required"}
+    ]
+  },
+  {
     "label": "Requerimientos especiales",
     "type": "textarea",
     "name": "RequerimientosEspeciales"
   },
- 
   {
     "label": "Cantidad de personal de CyT",
     "type": "text",
     "name": "PersonalCyt"
   },
   {
-    "label": "Enologo Sommelier",
-    "type": "text",
-    "name": "EnologoSommelier"
-  },
-  {
     "label": "Encargado del Tour",
     "type": "text",
     "name": "EncargadoTour"
   },
+  {
+    "label": "Enologo Sommelier",
+    "type": "text",
+    "name": "EnologoSommelier"
+  },
+ 
   {
     "label": "Lugar Almuerzo y Cena",
     "type": "text",
@@ -66,11 +79,7 @@
     "type": "text",
     "name": "CopasDegustacion"
   },
-  {
-    "label": "Comentarios del Lugar Almuerzo y Cena",
-    "type": "textarea",
-    "name": "ComentarioLugarAlmuerzoCena"
-  },
+
   
   {
     "label": "Estado Vinos de Degustacion",
@@ -90,6 +99,11 @@
         "text": "Recibidos"
       }
     ]
+  },
+  {
+    "label": "Comentarios del Lugar Almuerzo y Cena",
+    "type": "textarea",
+    "name": "ComentarioLugarAlmuerzoCena"
   },
   {
     "label": "Comentario Vinos de Degustacion",
@@ -121,6 +135,11 @@
     "name": "ComentarioVinosComidas"
   },
   {
+    "label": "Comentario Regalos Visitas",
+    "type": "textarea",
+    "name": "ComentarioRegalosVisitas"
+  },
+  {
     "label": "Estado Regalos Visitas",
     "type": "select",
     "name": "EstadoRegalosVisitas",
@@ -139,10 +158,16 @@
       }
     ]
   },
+
   {
-    "label": "Comentario Regalos Visitas",
-    "type": "textarea",
-    "name": "ComentarioRegalosVisitas"
+    "label": "Marketing",
+    "type": "text",
+    "name": "Marketing"
+  },
+  {
+    "label": "Exportaciones",
+    "type": "text",
+    "name": "Exportaciones"
   },
   {
     "label": "Estado Menu Comidas",
@@ -164,13 +189,8 @@
     ]
   },
   {
-    "label": "Comentarios Menu Comidas",
-    "type": "textarea",
-    "name": "ComentariosMenuComidas"
-  },
-  {
-    "label": "Comentarios Generales",
-    "type": "textarea",
-    "name": "ComentariosGenerales"
+    "label": "Otras Gerencias",
+    "type": "text",
+    "name": "OtrasGerencias"
   }
 ]

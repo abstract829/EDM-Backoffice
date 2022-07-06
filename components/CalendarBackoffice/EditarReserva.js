@@ -108,6 +108,18 @@ const EditarReserva = ({ closeModal, sala }) => {
       disabled: true,
     },
     {
+      label: 'Descripción de evento',
+      type: 'textarea',
+      name: 'ComentariosGenerales',
+      value: reserva && validateValue(reserva.data.ComentariosGenerales),
+    },
+    {
+      label: 'Descripcion Visita',
+      type: 'textarea',
+      name: 'DescripcionVisita',
+      value: reserva && validateValue(reserva.data.DescripcionVisita),
+    },
+    {
       label: 'Requerimientos especiales',
       type: 'textarea',
       name: 'RequerimientosEspeciales',
@@ -255,10 +267,22 @@ const EditarReserva = ({ closeModal, sala }) => {
       value: reserva && validateValue(reserva.data.ComentariosMenuComidas),
     },
     {
-      label: 'Comentarios Generales',
-      type: 'textarea',
-      name: 'ComentariosGenerales',
-      value: reserva && validateValue(reserva.data.ComentariosGenerales),
+      label: 'Marketing',
+      type: 'text',
+      name: 'Marketing',
+      value: reserva && validateValue(reserva.data.Marketing),
+    },
+    {
+      label: 'Exportaciones',
+      type: 'text',
+      name: 'Exportaciones',
+      value: reserva && validateValue(reserva.data.Exportaciones),
+    },
+    {
+      label: 'Otras Gerencias',
+      type: 'text',
+      name: 'OtrasGerencias',
+      value: reserva && validateValue(reserva.data.OtrasGerencias),
     },
   ]
 

@@ -37,7 +37,7 @@ export default function TablaReservas() {
   const { searchValue, handleChange, filterListado } = useSearch(columnToSearch)
   const [hiddenCols, setHiddenCols] = useState([])
   const [columns, setColumns] = useState([
-    'ID',
+    'N° Reserva',
     'Nombre',
     'Solicitante',
     'Email Solicitante',
@@ -74,7 +74,7 @@ export default function TablaReservas() {
     'Empresa',
   ])
   const colSearchFilter = [
-    { text: 'ID', value: 'ReservaId' },
+    { text: 'N° Reserva', value: 'ReservaId' },
     { text: 'Nombre', value: 'SalaNombre' },
     { text: 'Solicitante', value: 'NombreSolicitante' },
     { text: 'Email Solicitante', value: 'EmailSolicitante' },
