@@ -10,7 +10,14 @@ export const fetchGuardarEmpresa = async ({
   Activo,
   CodigoSAP,
 }) => {
-  const request = { EmpresaId, Nombre, Rut, Activo, CodigoSAP }
+  const request = {
+    EmpresaId,
+    Nombre,
+    Rut,
+    Activo,
+    CodigoSAP,
+    PrecioFijoTourPP: '70000',
+  }
   const { data } = await api.post(`/api/empresa/guardar/`, request)
   return data
 }

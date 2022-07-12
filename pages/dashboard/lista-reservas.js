@@ -1,10 +1,12 @@
 import DashboardLayout from '../../components/DashboardLayout'
 import TablaReservas from '../../components/TablaReservas'
+import TablaDevExtreme from '../../components/TablaReservas/TablaDevExtreme'
 
 const ListaReservasPage = () => {
   return (
     <div>
-      <TablaReservas />
+      {/* <TablaReservas /> */}
+      <TablaDevExtreme />
     </div>
   )
 }

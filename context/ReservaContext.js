@@ -5,12 +5,12 @@ export const ReservaProvider = ({ children }) => {
   const [asistentes, setAsistentes] = useState([])
   const [solicitante, setSolicitante] = useState([])
   const [reservaData, setReservaData] = useState([])
-  useEffect(() => {
-    console.log(asistentes)
-  }, [asistentes])
-  useEffect(() => {
-    console.log({ solicitante })
-  }, [solicitante])
+  // useEffect(() => {
+  //   console.log(asistentes)
+  // }, [asistentes])
+  // useEffect(() => {
+  //   console.log({ solicitante })
+  // }, [solicitante])
 
   return (
     <ReservaContext.Provider

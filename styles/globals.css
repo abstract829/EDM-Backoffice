@@ -94,3 +94,12 @@
     max-width:1500px
   }
 }
+.dx-widget{
+}
+
+.showwidget{
+  z-index: 1 !important;
+}
+.hiddewidget{
+  z-index: 0 !important;
+}
