@@ -2,12 +2,15 @@ import { useState } from 'react'
 import { useQueryEmpresas } from '../../hooks/empresas'
 import Alert from '../Alert'
 import LoaderWhen from '../LoaderWhen'
+import NoAccess from '../NoAccess'
 import Table from './Table'
 
 export default function TablaUsuariosEmpresa() {
   const { data: listadoEmpresas, isLoading, isError } = useQueryEmpresas()
   const [id, setId] = useState(null)
-
+  if(!listadoEmpresas){
+    return <NoAccess />
+  }
   if (isError) {
     return <Alert type="failed">Hubo un error inesperado</Alert>
   }

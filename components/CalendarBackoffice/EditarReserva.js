@@ -261,6 +261,32 @@ const EditarReserva = ({ closeModal, sala }) => {
       value: reserva && validateValue(reserva.data.EstadoMenuComidas),
     },
     {
+      label: 'Estado Materiales Degustación',
+      type: 'select',
+      name: 'EstadoMaterialesDegustacion',
+      options: [
+        {
+          value: 'No solicitados',
+          text: 'No solicitados',
+        },
+        {
+          value: 'Solicitados',
+          text: 'Solicitados',
+        },
+        {
+          value: 'Recibidos',
+          text: 'Recibidos',
+        },
+      ],
+      value: reserva && validateValue(reserva.data.EstadoMaterialesDegustacion),
+    },
+    {
+      label: 'Comentarios Materiales Degustación',
+      type: 'textarea',
+      name: 'ComentariosMaterialesDegustacion',
+      value: reserva && validateValue(reserva.data.ComentariosMaterialesDegustacion),
+    },
+    {
       label: 'Comentarios Menu Comidas',
       type: 'textarea',
       name: 'ComentariosMenuComidas',

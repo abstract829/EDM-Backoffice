@@ -5,6 +5,8 @@ import TablaUsuariosEmpresa from '../../components/TablaUsuariosEmpresa'
 const ReservaCalendarioPage = () => {
   return (
     <div>
+            <h2 className='mb-8 font-bold text-center text-primary'>Calendario de Reservas</h2>
+
       <CalendarBackoffice />
     </div>
   )

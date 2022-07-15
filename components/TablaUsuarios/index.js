@@ -5,6 +5,7 @@ import Alert from '../Alert'
 import DefaultTable from '../DefaultTable'
 import LoaderWhen from '../LoaderWhen'
 import ModalRP from '../ModalRP'
+import NoAccess from '../NoAccess'
 import Pagination from '../Pagination'
 import PlusButton from '../PlusButton'
 import AddUsuario from './AddUsuario'
@@ -26,6 +27,9 @@ export default function TablaUsuarios() {
     arr: listadoUsuarios && listadoUsuarios.data,
   })
   const columns = ['ID', 'Nombre', 'Email', 'Perfil', 'Activo']
+  if(!listadoUsuarios){
+    return <NoAccess />
+  }
   if (isError) {
     return <Alert type="failed">Hubo un error inesperado</Alert>
   }

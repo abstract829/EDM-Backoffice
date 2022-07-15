@@ -8,6 +8,7 @@ import DefaultTable from '../DefaultTable'
 import LoaderWhen from '../LoaderWhen'
 import ModalComponent from '../Modal'
 import ModalRP from '../ModalRP'
+import NoAccess from '../NoAccess'
 import Pagination from '../Pagination'
 import PlusButton from '../PlusButton'
 import AddEmpresa from './AddEmpresa'
@@ -34,6 +35,9 @@ export default function TablaEmpresas() {
     arr: listadoEmpresas && listadoEmpresas.data,
   })
   const columns = ['ID', 'Nombre', 'Rut', 'Activo', 'CodigoSAP']
+  if(!listadoEmpresas){
+    return <NoAccess/>
+  }
   if (isError) {
     return <Alert type="failed">Hubo un error inesperado</Alert>
   }

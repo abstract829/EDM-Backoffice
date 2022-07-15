@@ -6,6 +6,7 @@ import DefaultTable from '../DefaultTable'
 import LoaderWhen from '../LoaderWhen'
 import ModalComponent from '../Modal'
 import ModalRP from '../ModalRP'
+import NoAccess from '../NoAccess'
 import Pagination from '../Pagination'
 import PlusButton from '../PlusButton'
 import AddPerfil from './AddPerfil'
@@ -28,6 +29,9 @@ export default function TablaUsuarios() {
     arr: listadoPerfiles && listadoPerfiles.data,
   })
   const columns = ['ID', 'Nombre', 'Activo', 'Funciones']
+  if(!listadoPerfiles){
+    return <NoAccess/>
+  }
   if (isError) {
     return <Alert type="failed">Hubo un error inesperado</Alert>
   }

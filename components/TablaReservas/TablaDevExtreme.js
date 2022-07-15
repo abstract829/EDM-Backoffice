@@ -7,14 +7,17 @@ import {
   ColumnChooser,
   ColumnFixing,
   Editing,
+  FilterPanel,
   FilterRow,
   Form,
   GroupPanel,
+  HeaderFilter,
   Pager,
   Paging,
   Popup,
   RequiredRule,
   SearchPanel,
+  StateStoring,
 } from 'devextreme-react/data-grid'
 import { useEffect, useState } from 'react'
 import { useQueryReservas } from '../../hooks/reservas'
@@ -23,13 +26,17 @@ import EditarReserva from '../CalendarBackoffice/EditarReserva'
 import LoaderWhen from '../LoaderWhen'
 import Modal2 from '../Modal2'
 import ModalRP from '../ModalRP'
+import NoAccess from '../NoAccess'
 import PlusButton from '../PlusButton'
+import StatusText from './StatusText'
 
 const TablaDevExtreme = () => {
   const { data: reservas, isLoading, isError } = useQueryReservas()
   const [toggleEdit, setToggleEdit] = useState(false)
   const [dataToEdit, setDataToEdit] = useState(null)
-
+  if(!reservas){
+    return <NoAccess/>
+  }
   if (isLoading) {
     return <LoaderWhen isTrue={isLoading} />
   }
@@ -53,7 +60,6 @@ const TablaDevExtreme = () => {
     setDataToEdit(e.row.data)
     setToggleEdit(true)
   }
-
   return (
     <>
       <ModalRP
@@ -91,7 +97,7 @@ const TablaDevExtreme = () => {
             <Column type="buttons" width={110}>
               <Button name="editar" icon="edit" onClick={handleEditButton} />
             </Column>
-            <Column dataField="Fecha" dataType="date" />
+            <Column dataField="Fecha" dataType="date" format={'dd/MM/yyyy'}/>
             <Column dataField="HorarioInicio" />
             <Column dataField="HorarioTermino" />
             <Column dataField="DescripcionVisita" caption="Visita" />
@@ -115,15 +121,22 @@ const TablaDevExtreme = () => {
             <Column dataField="EnologoSommelier" />
             <Column dataField="LugarAlmuerzoCena" caption="Almuerzo" />
             <Column dataField="CopasDegustacion" caption="Copas" />
-            <Column dataField="EstadoVinosDegustacion" />
-            <Column dataField="EstadoVinosComidas" />
+            <Column dataField="EstadoVinosDegustacion" cellRender={cell => <StatusText>{cell.value}</StatusText>}/>
+            <Column dataField="EstadoVinosComidas" cellRender={cell => <StatusText>{cell.value}</StatusText>}/>
             <Column
               dataField="EstadoRegalosVisitas"
               caption="Regalos para visitas"
+              cellRender={cell => <StatusText>{cell.value}</StatusText>}
+            />
+            <Column
+              dataField="EstadoMaterialesDegustacion"
+              caption="Estado materiales degustación"
+              cellRender={cell => <StatusText>{cell.value}</StatusText>}
             />
             <Column
               dataField="EstadoMenuComidas"
               caption="Menú almuerzo/cena"
+              cellRender={cell => <StatusText>{cell.value}</StatusText>}
             />
 
             <Paging defaultPageSize={30} />
@@ -133,11 +146,13 @@ const TablaDevExtreme = () => {
               allowedPageSizes={[30]}
               showInfo={true}
             />
+            <StateStoring enabled={true} type="localStorage" storageKey="storage-reservas" />
+            <FilterRow visible={true} />
+          <HeaderFilter visible={true} />
             <FilterRow visible={true} />
             <SearchPanel visible={true} />
-            <GroupPanel visible={true} />
-
-            <Export
+            <GroupPanel visible={true} emptyPanelText="Arraste una columna aquí para agrupar"/>
+            <ColumnChooser enabled={true} allowSearch={true} mode={true} />            <Export
               enabled={true}
               fileName="tabla-reservas"
               allowExportSelectedData={false}

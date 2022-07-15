@@ -26,7 +26,7 @@ export const fetchEliminarEmpresa = async ({ EmpresaId }) => {
   return data
 }
 export const fetchObtenerEmpresaPorId = async ({ id }) => {
-  const { data } = await api.get(`/api/empresa/obtener/${empresaId}`)
+  const { data } = await api.get(`/api/empresa/obtener/${id}`)
   return data
 }
 export const fetchListarUsuariosEmpresa = async ({ empresaId }) => {
@@ -34,7 +34,7 @@ export const fetchListarUsuariosEmpresa = async ({ empresaId }) => {
   return data
 }
 export const fetchObtenerUsuarioEmpresaPorId = async ({ id }) => {
-  const { data } = await api.get(`/api/empresausuario/obtener/${empresaId}`)
+  const { data } = await api.get(`/api/empresausuario/obtener/${id}`)
   return data
 }
 export const fetchGuardarUsuarioEmpresa = async ({

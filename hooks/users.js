@@ -3,6 +3,7 @@ import {
   fetchGuardarUsuario,
   fetchListarUsuarios,
   fetchObtenerPersonaById,
+  fetchObtenerUsuarioPorId,
 } from '../services/user'
 import useAuth from './useAuth'
 
@@ -30,5 +31,12 @@ export const useQueryPersona = ({ id }) => {
     {
       enabled: isAuthenticated,
     }
+  )
+}
+export const useQueryUsuarioById = ({id}) => {
+  
+  return useQuery(
+    [key, id],
+    () => fetchObtenerUsuarioPorId({ id })
   )
 }

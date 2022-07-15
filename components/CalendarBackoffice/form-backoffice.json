@@ -158,16 +158,15 @@
       }
     ]
   },
-
+  {
+    "label": "Comentario Materiales Degustación",
+    "type": "textarea",
+    "name": "ComentariosMaterialesDegustacion"
+  },
   {
     "label": "Marketing",
     "type": "text",
     "name": "Marketing"
-  },
-  {
-    "label": "Exportaciones",
-    "type": "text",
-    "name": "Exportaciones"
   },
   {
     "label": "Estado Menu Comidas",
@@ -188,9 +187,34 @@
       }
     ]
   },
+  
+  {
+    "label": "Exportaciones",
+    "type": "text",
+    "name": "Exportaciones"
+  },
   {
     "label": "Otras Gerencias",
     "type": "text",
     "name": "OtrasGerencias"
+  },
+  {
+    "label": "Estado Materiales Degustación",
+    "type": "select",
+    "name": "EstadoMaterialesDegustacion",
+    "options": [
+      {
+        "value": "No solicitados",
+        "text": "No solicitados"
+      },
+      {
+        "value": "Solicitados",
+        "text": "Solicitados"
+      },
+      {
+        "value": "Recibidos",
+        "text": "Recibidos"
+      }
+    ]
   }
 ]

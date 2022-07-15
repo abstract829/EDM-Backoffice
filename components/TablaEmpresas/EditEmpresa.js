@@ -1,14 +1,29 @@
 import FormikForm from '../FormikForm'
 import * as Yup from 'yup'
 import Alerts from '../Alerts'
-import { useMutateEmpresa } from '../../hooks/empresas'
+import { useMutateEmpresa, useQueryEmpresaById } from '../../hooks/empresas'
 import { checkRut } from '../../utils/utils'
+import NoAccess from '../NoAccess'
 const EditEmpresa = ({ empresa, closeModal }) => {
+  const {data} = useQueryEmpresaById({id:empresa.EmpresaId})
   const {
     mutate: editEmpresa,
     isError: isErrorMutating,
     isSuccess,
   } = useMutateEmpresa()
+  if(!data){
+    return (
+      <>
+        <NoAccess/>
+        <button
+        className="block px-4 py-2 mt-8 text-white bg-slate-600"
+        onClick={closeModal}
+        >
+        Cerrar
+        </button>
+      </>
+    )
+  }
   const inputForms = [
     {
       label: 'Nombre',

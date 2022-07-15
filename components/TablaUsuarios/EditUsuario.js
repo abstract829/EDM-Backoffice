@@ -1,11 +1,13 @@
-import { useMutateUser } from '../../hooks/users'
+import { useMutateUser, useQueryUsuarioById } from '../../hooks/users'
 import { useQueryPerfilesActivos } from '../../hooks/perfiles'
 import FormikForm from '../FormikForm'
 import * as Yup from 'yup'
 import Alert from '../Alert'
 import Alerts from '../Alerts'
 import LoaderWhen from '../LoaderWhen'
+import NoAccess from '../NoAccess'
 const EditUsuario = ({ user, closeModal }) => {
+  const {data, isLoadingU, isErrorU } = useQueryUsuarioById({id:user.UsuarioId})
   const {
     data: listadoPerfilesActivos,
     isLoading,
@@ -16,7 +18,20 @@ const EditUsuario = ({ user, closeModal }) => {
     isError: isErrorMutating,
     isSuccess,
   } = useMutateUser()
-  if (isError) {
+  if(!data){
+    return (
+      <>
+        <NoAccess/>
+        <button
+        className="block px-4 py-2 mt-8 text-white bg-slate-600"
+        onClick={closeModal}
+        >
+        Cerrar
+        </button>
+      </>
+    )
+  }
+  if (isError || isErrorU ) {
     return <Alert type="failed">Hubo un error inesperado</Alert>
   }
   const inputForms = [
@@ -75,7 +90,7 @@ const EditUsuario = ({ user, closeModal }) => {
     editUser(usuario)
   }
   return (
-    <LoaderWhen isTrue={isLoading}>
+    <LoaderWhen isTrue={isLoading || isLoadingU}>
       <div className="w-96">
         <FormikForm
           inputForms={inputForms}
