@@ -4,9 +4,23 @@ import Alerts from '../Alerts'
 import { useMutatePerfil, useQueryPerfilById } from '../../hooks/perfiles'
 import LoaderWhen from '../LoaderWhen'
 import Alert from '../Alert'
+import NoAccess from '../NoAccess'
 const EditPerfil = ({ id, closeModal }) => {
   const { mutate: editPerfil, isErrorMutating, isSuccess } = useMutatePerfil()
   const { data: perfil, isLoading, isError } = useQueryPerfilById({ id })
+  if(!perfil){
+    return (
+      <>
+        <NoAccess/>
+        <button
+        className="block px-4 py-2 mt-8 text-white bg-slate-600"
+        onClick={closeModal}
+        >
+        Cerrar
+        </button>
+      </>
+    )
+  }
   if (isError) {
     return <Alert type="failed">Hubo un error inesperado</Alert>
   }

@@ -21,6 +21,7 @@ import {
 } from 'devextreme-react/data-grid'
 import { useEffect, useState } from 'react'
 import { useQueryReservas } from '../../hooks/reservas'
+import { dateParse } from '../../utils/utils'
 import ConfirmarHorario from '../CalendarBackoffice/ConfirmarHorario'
 import EditarReserva from '../CalendarBackoffice/EditarReserva'
 import LoaderWhen from '../LoaderWhen'
@@ -74,6 +75,10 @@ const TablaDevExtreme = () => {
         <Modal2
           key={toggleEdit}
           setOpen={toggleEdit}
+          title={`N° Reserva: ${dataToEdit.ReservaId} - ${dateParse(
+            dataToEdit.Fecha.split('T')[0]
+          )} ${dataToEdit.SalaNombre} ${dataToEdit.HorarioInicio} -
+                            ${dataToEdit.HorarioTermino}`}
           onClose={() => {
             setToggleEdit(false)
             showWidgs()

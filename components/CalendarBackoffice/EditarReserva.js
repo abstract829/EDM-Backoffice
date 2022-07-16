@@ -12,6 +12,7 @@ import Alerts from '../Alerts'
 import NewForm from '../FormikForm/NewForm'
 import LoaderWhen from '../LoaderWhen'
 import ModalRP from '../ModalRP'
+import NoAccess from '../NoAccess'
 import RenderIf from '../RenderIf'
 import AprobarReserva from './AprobarReserva'
 import AsistentesTable from './AsistentesTable'
@@ -44,7 +45,13 @@ const EditarReserva = ({ closeModal, sala }) => {
       setAsistentes(reserva.data.Asistentes)
     }
   }, [reserva])
-
+  if(!reserva){
+    return (
+      <>
+        <NoAccess/>
+      </>
+    )
+  }
   if (isLoadingSala) {
     return <LoaderWhen isTrue={isLoadingSala} />
   }
