@@ -17,7 +17,7 @@ import RenderIf from '../RenderIf'
 import AprobarReserva from './AprobarReserva'
 import AsistentesTable from './AsistentesTable'
 import EditarSolicitante from './EditarSolicitante'
-const EditarReserva = ({ closeModal, sala }) => {
+const EditarReserva = ({ closeModal, sala, fromCalendar = false }) => {
   const queryClient = useQueryClient()
   const [cancelarSuccess, setCancelarSuccess] = useState(0)
   const {
@@ -49,6 +49,15 @@ const EditarReserva = ({ closeModal, sala }) => {
     return (
       <>
         <NoAccess/>
+        {
+          fromCalendar && <button
+          className="block px-4 py-2 mt-8 text-white bg-slate-600"
+          onClick={closeModal}
+          >
+          Cerrar
+          </button>
+        }
+        
       </>
     )
   }

@@ -23,7 +23,7 @@ const DisplayReservas = ({ Reserva, Fecha }) => {
               btn={<CalendarItem sala={sala} />}
             >
               {(closeModal) => (
-                <EditarReserva closeModal={closeModal} sala={sala} />
+                <EditarReserva closeModal={closeModal} sala={sala} fromCalendar={true}/>
               )}
             </ModalRP>
           </li>
