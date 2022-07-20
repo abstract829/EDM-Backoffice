@@ -11,7 +11,13 @@ const customStyles = {
   },
 }
 Modal.setAppElement('#modal-root')
-const Modal2 = ({ setOpen, title, children, onClose = () => null }) => {
+const Modal2 = ({
+  setOpen,
+  title,
+  children,
+  onClose = () => null,
+  showCancel = true,
+}) => {
   const [isOpen, setIsOpen] = useState(setOpen)
   const closeModal = () => {
     onClose()
@@ -22,14 +28,16 @@ const Modal2 = ({ setOpen, title, children, onClose = () => null }) => {
       <h3 className="mb-8 bg-[#908161] p-2 text-center text-white ">{title}</h3>
       <div className="px-4 py-2">
         <div>{children(closeModal)}</div>
-        <div className="flex justify-end mt-8">
-          <button
-            className="px-4 py-2 text-white bg-slate-600"
-            onClick={closeModal}
-          >
-            Cerrar
-          </button>
-        </div>
+        {showCancel && (
+          <div className="flex justify-end mt-8">
+            <button
+              className="px-4 py-2 text-white bg-slate-600"
+              onClick={closeModal}
+            >
+              Cerrar
+            </button>
+          </div>
+        )}
       </div>
     </Modal>
   )

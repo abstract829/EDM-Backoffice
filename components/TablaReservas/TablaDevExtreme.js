@@ -35,8 +35,8 @@ const TablaDevExtreme = () => {
   const { data: reservas, isLoading, isError } = useQueryReservas()
   const [toggleEdit, setToggleEdit] = useState(false)
   const [dataToEdit, setDataToEdit] = useState(null)
-  if(!reservas){
-    return <NoAccess/>
+  if (!reservas) {
+    return <NoAccess />
   }
   if (isLoading) {
     return <LoaderWhen isTrue={isLoading} />
@@ -83,6 +83,7 @@ const TablaDevExtreme = () => {
             setToggleEdit(false)
             showWidgs()
           }}
+          showCancel={false}
         >
           {(closeModal) => (
             <EditarReserva sala={dataToEdit} closeModal={closeModal} />
@@ -102,7 +103,7 @@ const TablaDevExtreme = () => {
             <Column type="buttons" width={110}>
               <Button name="editar" icon="edit" onClick={handleEditButton} />
             </Column>
-            <Column dataField="Fecha" dataType="date" format={'dd/MM/yyyy'}/>
+            <Column dataField="Fecha" dataType="date" format={'dd/MM/yyyy'} />
             <Column dataField="HorarioInicio" />
             <Column dataField="HorarioTermino" />
             <Column dataField="DescripcionVisita" caption="Visita" />
@@ -112,7 +113,6 @@ const TablaDevExtreme = () => {
               caption="No. PAX"
             />
             <Column dataField="TipoVisita" />
-
             <Column dataField="NombreSolicitante" />
             <Column
               dataField="ComentariosGenerales"
@@ -126,24 +126,29 @@ const TablaDevExtreme = () => {
             <Column dataField="EnologoSommelier" />
             <Column dataField="LugarAlmuerzoCena" caption="Almuerzo" />
             <Column dataField="CopasDegustacion" caption="Copas" />
-            <Column dataField="EstadoVinosDegustacion" cellRender={cell => <StatusText>{cell.value}</StatusText>}/>
-            <Column dataField="EstadoVinosComidas" cellRender={cell => <StatusText>{cell.value}</StatusText>}/>
+            <Column
+              dataField="EstadoVinosDegustacion"
+              cellRender={(cell) => <StatusText>{cell.value}</StatusText>}
+            />
+            <Column
+              dataField="EstadoVinosComidas"
+              cellRender={(cell) => <StatusText>{cell.value}</StatusText>}
+            />
             <Column
               dataField="EstadoRegalosVisitas"
               caption="Regalos para visitas"
-              cellRender={cell => <StatusText>{cell.value}</StatusText>}
+              cellRender={(cell) => <StatusText>{cell.value}</StatusText>}
             />
             <Column
               dataField="EstadoMaterialesDegustacion"
               caption="Estado materiales degustación"
-              cellRender={cell => <StatusText>{cell.value}</StatusText>}
+              cellRender={(cell) => <StatusText>{cell.value}</StatusText>}
             />
             <Column
               dataField="EstadoMenuComidas"
               caption="Menú almuerzo/cena"
-              cellRender={cell => <StatusText>{cell.value}</StatusText>}
+              cellRender={(cell) => <StatusText>{cell.value}</StatusText>}
             />
-
             <Paging defaultPageSize={30} />
             <Pager
               showPageSizeSelector={true}
@@ -151,13 +156,21 @@ const TablaDevExtreme = () => {
               allowedPageSizes={[30]}
               showInfo={true}
             />
-            <StateStoring enabled={true} type="localStorage" storageKey="storage-reservas" />
+            <StateStoring
+              enabled={true}
+              type="localStorage"
+              storageKey="storage-reservas"
+            />
             <FilterRow visible={true} />
-          <HeaderFilter visible={true} />
+            <HeaderFilter visible={true} />
             <FilterRow visible={true} />
             <SearchPanel visible={true} />
-            <GroupPanel visible={true} emptyPanelText="Arraste una columna aquí para agrupar"/>
-            <ColumnChooser enabled={true} allowSearch={true} mode={true} />            <Export
+            <GroupPanel
+              visible={true}
+              emptyPanelText="Arraste una columna aquí para agrupar"
+            />
+            <ColumnChooser enabled={true} allowSearch={true} mode={true} />{' '}
+            <Export
               enabled={true}
               fileName="tabla-reservas"
               allowExportSelectedData={false}

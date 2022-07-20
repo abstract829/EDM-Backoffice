@@ -45,19 +45,18 @@ const EditarReserva = ({ closeModal, sala, fromCalendar = false }) => {
       setAsistentes(reserva.data.Asistentes)
     }
   }, [reserva])
-  if(!reserva){
+  if (!reserva) {
     return (
       <>
-        <NoAccess/>
-        {
-          fromCalendar && <button
-          className="block px-4 py-2 mt-8 text-white bg-slate-600"
-          onClick={closeModal}
+        <NoAccess />
+        {fromCalendar && (
+          <button
+            className="block px-4 py-2 mt-8 text-white bg-slate-600"
+            onClick={closeModal}
           >
-          Cerrar
+            Cerrar
           </button>
-        }
-        
+        )}
       </>
     )
   }
@@ -300,7 +299,8 @@ const EditarReserva = ({ closeModal, sala, fromCalendar = false }) => {
       label: 'Comentarios Materiales Degustación',
       type: 'textarea',
       name: 'ComentariosMaterialesDegustacion',
-      value: reserva && validateValue(reserva.data.ComentariosMaterialesDegustacion),
+      value:
+        reserva && validateValue(reserva.data.ComentariosMaterialesDegustacion),
     },
     {
       label: 'Comentarios Menu Comidas',
