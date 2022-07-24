@@ -60,6 +60,10 @@ const Sidebar = ({ collapsed }) => {
       name: 'Perfil',
       routes: [
         {
+          name: 'Cambiar contraseña',
+          path: '/dashboard/change-password',
+        },
+        {
           name: 'Cerrar sesión',
           path: '/auth/sign-in',
         },

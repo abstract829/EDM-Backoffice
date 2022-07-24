@@ -22,6 +22,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useQueryReservas } from '../../hooks/reservas'
 import { dateParse } from '../../utils/utils'
+import Alert from '../Alert'
 import ConfirmarHorario from '../CalendarBackoffice/ConfirmarHorario'
 import EditarReserva from '../CalendarBackoffice/EditarReserva'
 import LoaderWhen from '../LoaderWhen'
@@ -29,12 +30,14 @@ import Modal2 from '../Modal2'
 import ModalRP from '../ModalRP'
 import NoAccess from '../NoAccess'
 import PlusButton from '../PlusButton'
+import RenderIf from '../RenderIf'
 import StatusText from './StatusText'
 
 const TablaDevExtreme = () => {
   const { data: reservas, isLoading, isError } = useQueryReservas()
   const [toggleEdit, setToggleEdit] = useState(false)
   const [dataToEdit, setDataToEdit] = useState(null)
+  const [notEditable, setNotEditable] = useState(false)
   if (!reservas) {
     return <NoAccess />
   }
@@ -57,9 +60,14 @@ const TablaDevExtreme = () => {
     })
   }
   const handleEditButton = (e) => {
-    hiddeWidgs()
-    setDataToEdit(e.row.data)
-    setToggleEdit(true)
+    if (e.row.data.TipoVisita !== 'TOUR WEB') {
+      hiddeWidgs()
+      setDataToEdit(e.row.data)
+      setToggleEdit(true)
+      setNotEditable(false)
+    } else {
+      setNotEditable(true)
+    }
   }
   return (
     <>
@@ -91,13 +99,17 @@ const TablaDevExtreme = () => {
         </Modal2>
       )}
       <div className="max-w-6xl dtable">
+        <RenderIf isTrue={notEditable}>
+          <Alert type="failed" className="flex items-center w-72">
+            No puedes editar ese tipo de reservas
+          </Alert>
+        </RenderIf>
+
         {reservas && (
           <DataGrid
             dataSource={reservas.data}
             allowColumnReordering={true}
             keyExpr="ReservaId"
-            onSaving={(e) => console.log(e)}
-            onEditingStart={(e) => console.log(e)}
             columnAutoWidth={true}
           >
             <Column type="buttons" width={110}>

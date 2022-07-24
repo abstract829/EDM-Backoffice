@@ -70,3 +70,11 @@ export const fetchObtenerPersonaById = async ({ id }) => {
   const { data } = await api.get(`/api/usuario/obtenermipersona/${id}`)
   return data
 }
+export const fetchCambiarClave = async (req) => {
+  const { data } = await api.post(`/api/usuario/cambiarClave`, req)
+  return data
+}
+export const fetchResetClave = async (req) => {
+  const { data } = await api.post(`/api/usuario/recuperarClave`, req)
+  return data
+}

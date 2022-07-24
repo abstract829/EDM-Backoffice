@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
 import * as Yup from 'yup'
 import AuthNavigate from '../../components/AuthNavigate'
+import ResetPassword from '../../components/ChangePassword/ResetPassword'
 import FormikForm from '../../components/FormikForm'
+import ModalRP from '../../components/ModalRP'
 import useAuth from '../../hooks/useAuth'
 const SignInPage = () => {
   const { signIn } = useAuth()
@@ -51,6 +53,18 @@ const SignInPage = () => {
             btnText="Ingresar"
             enableCerrar={false}
           />
+          <div className="flex justify-center mt-4">
+            <ModalRP
+              title="Recuperar contraseña"
+              btn={
+                <p className="text-white cursor-pointer hover:text-gray-600">
+                  ¿Has olvidado tu contraseña?
+                </p>
+              }
+            >
+              {(close) => <ResetPassword closeForm={close} />}
+            </ModalRP>
+          </div>
         </div>
       </div>
     </div>

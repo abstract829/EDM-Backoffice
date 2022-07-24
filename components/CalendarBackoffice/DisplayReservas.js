@@ -1,5 +1,6 @@
 import { dateParse } from '../../utils/utils'
 import ModalRP from '../ModalRP'
+import RenderIf from '../RenderIf'
 import CalendarItem from './CalendarItem'
 import EditarReserva from './EditarReserva'
 
@@ -15,17 +16,26 @@ const DisplayReservas = ({ Reserva, Fecha }) => {
       >
         {Reserva.map((sala, i) => (
           <li key={i}>
-            <ModalRP
-              title={`N° Reserva: ${sala.ReservaId} - ${dateParse(
-                Fecha.split('T')[0]
-              )} ${sala.Sala} ${sala.HorarioInicio} -
+            <RenderIf isTrue={sala.TipoReserva !== 'TOUR'}>
+              <ModalRP
+                title={`N° Reserva: ${sala.ReservaId} - ${dateParse(
+                  Fecha.split('T')[0]
+                )} ${sala.Sala} ${sala.HorarioInicio} -
                                 ${sala.HorarioTermino}`}
-              btn={<CalendarItem sala={sala} />}
-            >
-              {(closeModal) => (
-                <EditarReserva closeModal={closeModal} sala={sala} fromCalendar={true}/>
-              )}
-            </ModalRP>
+                btn={<CalendarItem sala={sala} />}
+              >
+                {(closeModal) => (
+                  <EditarReserva
+                    closeModal={closeModal}
+                    sala={sala}
+                    fromCalendar={true}
+                  />
+                )}
+              </ModalRP>
+            </RenderIf>
+            <RenderIf isTrue={sala.TipoReserva === 'TOUR'}>
+              <CalendarItem sala={sala} />
+            </RenderIf>
           </li>
         ))}
       </ul>
